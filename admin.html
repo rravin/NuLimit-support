@@ -1,312 +1,431 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>پنل NuLimit Support</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>پنل مدیریت - NuLimit Support</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --bg:#020617;
-      --border:rgba(148,163,184,0.35);
-      --accent:#fbbf24;
-      --accent2:#6366f1;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --border: rgba(148, 163, 184, 0.4);
+      --accent: #22c55e;
+      --accent2: #6366f1;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
     }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{
-      font-family:'Vazirmatn',system-ui,sans-serif;
-      background:radial-gradient(circle at top left,#1e293b,#020617 55%,#000 100%);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    .layout{
-      flex:1;
-      display:grid;
-      grid-template-columns: minmax(0, 260px) minmax(0,1.6fr);
-      max-width:1100px;
-      margin:16px auto;
-      width:100%;
-      background:linear-gradient(135deg,rgba(15,23,42,0.95),rgba(2,6,23,0.98));
-      border-radius:26px;
-      overflow:hidden;
-      border:1px solid rgba(148,163,184,0.45);
-      box-shadow:0 32px 80px rgba(15,23,42,0.95);
+
+    body {
+      font-family: "Vazirmatn", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #1f2937, #020617 55%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 12px 8px;
+      display: flex;
+      justify-content: center;
     }
-    .sidebar{
-      border-left:1px solid var(--border);
-      background:radial-gradient(circle at top,rgba(30,64,175,0.5),rgba(15,23,42,0.95));
-      display:flex;
-      flex-direction:column;
+
+    .shell {
+      width: 100%;
+      max-width: 1100px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
+      border-radius: 22px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
-    .sidebar-header{
-      padding:16px 18px 12px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+
+    .topbar {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 1));
     }
-    .brand-mini{
-      display:flex;align-items:center;gap:10px;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .logo-small{
-      width:32px;height:32px;border-radius:16px;
-      background:conic-gradient(from 210deg,#facc15,#fb7185,#a855f7,#38bdf8,#facc15);
-      padding:2px;
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 17px;
+      background: conic-gradient(from 210deg, #facc15, #fb7185, #a855f7, #38bdf8, #facc15);
+      padding: 2px;
     }
-    .logo-inner{
-      width:100%;height:100%;border-radius:inherit;
-      background:radial-gradient(circle at 20% 0,#1f2937,#020617);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:700;font-size:15px;
+
+    .logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 0, #111827, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
     }
-    .brand-mini div h1{
-      font-size:14px;font-weight:600;
+
+    .brand-text h1 {
+      font-size: 15px;
+      font-weight: 600;
     }
-    .brand-mini div span{
-      font-size:11px;color:var(--muted);
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--muted);
     }
-    .tag-admin{
-      font-size:11px;
-      padding:4px 9px;
-      border-radius:999px;
-      border:1px solid rgba(252,211,77,0.7);
-      color:#fde68a;
-      background:rgba(23,37,84,0.9);
+
+    .pill-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.92);
+      font-size: 11px;
+      color: var(--muted);
     }
-    .conv-list{
-      flex:1;
-      overflow-y:auto;
-      padding:6px 6px 10px;
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
     }
-    .conv-item{
-      border-radius:12px;
-      padding:8px 9px;
-      margin:4px 2px;
-      cursor:pointer;
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      border:1px solid transparent;
-      background:rgba(15,23,42,0.72);
-      transition:background .15s, border-color .15s, transform .12s;
+
+    .body {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      flex: 1;
+      min-height: 0;
     }
-    .conv-item:hover{
-      background:rgba(30,64,175,0.9);
-      border-color:rgba(191,219,254,0.8);
-      transform:translateY(-1px);
+
+    .conv-panel {
+      width: 260px;
+      min-width: 220px;
+      max-width: 280px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
-    .conv-item.active{
-      background:linear-gradient(135deg,rgba(79,70,229,0.95),rgba(236,72,153,0.95));
-      border-color:transparent;
+
+    .conv-header {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
     }
-    .conv-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-size:12px;
+
+    .conv-header span:last-child {
+      font-size: 11px;
+      color: var(--muted);
     }
-    .conv-id{font-weight:500;}
-    .conv-time{
-      font-size:10px;color:var(--muted);
+
+    .conv-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 4px 8px;
     }
-    .conv-last{
-      font-size:11px;
-      color:var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width:100%;
+
+    .conv-item {
+      border-radius: 12px;
+      padding: 6px 8px;
+      margin: 3px 1px;
+      border: 1px solid transparent;
+      background: rgba(15, 23, 42, 0.9);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      font-size: 12px;
     }
-    .badge-unread{
-      font-size:10px;
-      padding:2px 7px;
-      border-radius:999px;
-      background:#fbbf24;
-      color:#111827;
-      font-weight:600;
+
+    .conv-item:hover {
+      background: rgba(30, 64, 175, 0.9);
+      border-color: rgba(191, 219, 254, 0.85);
+      transform: translateY(-1px);
     }
-    .main{
-      display:flex;
-      flex-direction:column;
-      background:radial-gradient(circle at top right,rgba(56,189,248,0.18),rgba(15,23,42,1));
+
+    .conv-item.active {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.96), rgba(236, 72, 153, 0.96));
+      border-color: transparent;
     }
-    .main-header{
-      padding:14px 16px 10px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+
+    .conv-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
     }
-    .main-header-left span:first-child{
-      font-size:13px;font-weight:500;
+
+    .conv-id {
+      font-weight: 500;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 130px;
     }
-    .main-header-left span:last-child{
-      font-size:11px;color:var(--muted);
+
+    .conv-time {
+      font-size: 10px;
+      color: var(--muted);
     }
-    .pill{
-      padding:4px 10px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.9);
-      border:1px solid rgba(148,163,184,0.5);
-      font-size:11px;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      color:var(--muted);
+
+    .conv-last {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .pill-dot{
-      width:7px;height:7px;border-radius:999px;
-      background:#22c55e;
-      box-shadow:0 0 10px rgba(34,197,94,0.9);
+
+    .badge-unread {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: #fbbf24;
+      color: #111827;
+      font-weight: 600;
+      margin-right: 4px;
     }
-    .chat-area{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      padding:10px 12px 12px;
+
+    .chat-panel {
+      flex: 1;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 8px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
-    .messages{
-      flex:1;
-      overflow-y:auto;
-      padding:4px 2px 8px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
+
+    .chat-header {
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      gap: 8px;
     }
-    .msg-row{
-      display:flex;
-      width:100%;
+
+    .chat-header span:first-child {
+      font-weight: 500;
     }
-    .msg-row.user{justify-content:flex-start;}
-    .msg-row.admin{justify-content:flex-end;}
-    .bubble{
-      max-width:75%;
-      padding:7px 10px 6px;
-      border-radius:14px;
-      font-size:12px;
-      line-height:1.6;
-      position:relative;
+
+    .chat-header span:last-child {
+      font-size: 11px;
+      color: var(--muted);
     }
-    .bubble.user{
-      background:rgba(17,24,39,0.95);
-      border:1px solid rgba(55,65,81,0.9);
-      border-bottom-right-radius:4px;
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 2px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 0;
     }
-    .bubble.admin{
-      background:linear-gradient(135deg,#fbbf24,#f97316);
-      color:#111827;
-      border-bottom-left-radius:4px;
+
+    .msg-row {
+      width: 100%;
+      display: flex;
     }
-    .time{
-      margin-top:1px;
-      font-size:10px;
-      opacity:.75;
-      text-align:left;
-      direction:ltr;
+
+    .msg-row.user {
+      justify-content: flex-start;
     }
-    .empty-state{
-      margin:auto;
-      text-align:center;
-      font-size:12px;
-      color:var(--muted);
+
+    .msg-row.admin {
+      justify-content: flex-end;
     }
-    .input-row{
-      margin-top:8px;
-      display:flex;
-      gap:8px;
-      border-top:1px solid var(--border);
-      padding-top:8px;
+
+    .bubble {
+      max-width: 78%;
+      border-radius: 14px;
+      padding: 7px 10px 5px;
+      font-size: 12px;
+      line-height: 1.6;
+      position: relative;
+      word-wrap: break-word;
+      white-space: pre-wrap;
     }
-    .reply-input{
-      flex:1;
-      border-radius:14px;
-      border:1px solid rgba(148,163,184,0.7);
-      background:rgba(15,23,42,0.98);
-      color:var(--text);
-      padding:8px 11px;
-      font-size:12px;
-      min-height:40px;
-      max-height:70px;
-      resize:vertical;
+
+    .bubble.user {
+      background: rgba(17, 24, 39, 0.96);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      border-bottom-right-radius: 4px;
     }
-    .send-btn{
-      border:none;
-      border-radius:999px;
-      padding:0 18px;
-      font-size:13px;
-      background:linear-gradient(135deg,#22c55e,#16a34a);
-      color:#f9fafb;
-      font-weight:600;
-      cursor:pointer;
-      display:flex;align-items:center;gap:6px;
-      box-shadow:0 12px 30px rgba(22,163,74,0.7);
-      white-space:nowrap;
-      transition:transform .12s, box-shadow .12s, filter .15s;
+
+    .bubble.admin {
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      color: #111827;
+      border-bottom-left-radius: 4px;
     }
-    .send-btn:hover{
-      filter:brightness(1.05);
-      transform:translateY(-1px);
-      box-shadow:0 16px 40px rgba(22,163,74,0.8);
+
+    .time {
+      margin-top: 1px;
+      font-size: 10px;
+      opacity: 0.8;
+      text-align: left;
+      direction: ltr;
     }
-    .send-btn:active{
-      transform:translateY(0);
-      box-shadow:0 10px 24px rgba(22,163,74,0.65);
+
+    .empty {
+      margin: auto;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
     }
-    .send-icon{
-      width:14px;height:14px;border-radius:999px;
-      border:1px solid rgba(22,163,74,0.7);
-      display:flex;align-items:center;justify-content:center;
-      font-size:10px;
+
+    .input-row {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      margin-top: 4px;
+      display: flex;
+      gap: 8px;
     }
-    .error{
-      font-size:11px;
-      color:#f97373;
-      margin-top:2px;
-      min-height:14px;
+
+    .reply-input {
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.97);
+      color: var(--text);
+      font-size: 12px;
+      padding: 8px 11px;
+      min-height: 40px;
+      max-height: 80px;
+      resize: vertical;
     }
-    
+
+    .send-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0 18px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #f9fafb;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 12px 30px rgba(22, 163, 74, 0.7);
+      white-space: nowrap;
+      height: 40px;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.4;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .send-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(22, 163, 74, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .error {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #f97373;
+      min-height: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .shell {
+        border-radius: 0;
+      }
+      .body {
+        flex-direction: column;
+      }
+      .conv-panel {
+        width: 100%;
+        max-width: 100%;
+      }
+      .chat-panel {
+        margin-top: 4px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="layout">
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <div class="brand-mini">
-          <div class="logo-small"><div class="logo-inner">N</div></div>
-          <div>
-            <h1>NuLimit Support</h1>
-            <span>لیست گفتگوهای کاربران</span>
-          </div>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <div class="logo-inner">N</div>
         </div>
-        <div class="tag-admin">Admin</div>
+        <div class="brand-text">
+          <h1>پنل مدیریت NuLimit</h1>
+          <span>مشاهده و پاسخ به پیام‌های کاربران</span>
+        </div>
       </div>
-      <div id="convList" class="conv-list">
-        <!-- گفتگوها اینجا لود می‌شوند -->
+      <div class="pill-count">
+        <span class="pill-dot"></span>
+        <span id="convCountLabel">۰ گفتگو</span>
       </div>
     </div>
 
-    <div class="main">
-      <div class="main-header">
-        <div class="main-header-left">
-          <span id="currentUserTitle">گفتگو انتخاب نشده است</span><br>
-          <span id="currentUserSub">از لیست سمت چپ یک کاربر را انتخاب کنید.</span>
+    <div class="body">
+      <aside class="conv-panel">
+        <div class="conv-header">
+          <span>گفتگوها</span>
+          <span>روی یک آیدی بزنید تا پیام‌ها نمایش داده شود.</span>
         </div>
-        <div class="pill">
-          <span class="pill-dot"></span>
-          <span id="convCountLabel">۰ گفتگو</span>
+        <div id="convList" class="conv-list">
+          <div class="empty">هنوز هیچ گفتگویی ثبت نشده است.</div>
         </div>
-      </div>
-      <div class="chat-area">
-        <div id="adminMessages" class="messages">
-          <div class="empty-state">
-            هنوز هیچ گفتگویی انتخاب نشده است.
+      </aside>
+
+      <section class="chat-panel">
+        <div class="chat-header">
+          <div>
+            <span id="currentUserTitle">گفتگو انتخاب نشده است</span><br />
+            <span id="currentUserSub">از لیست گفتگوها یک کاربر را انتخاب کنید.</span>
           </div>
         </div>
+
+        <div id="adminMessages" class="messages">
+          <div class="empty">هنوز هیچ گفتگویی انتخاب نشده است.</div>
+        </div>
+
         <div class="input-row">
           <textarea id="replyInput" class="reply-input" placeholder="پاسخ خود را بنویسید..." disabled></textarea>
           <button id="adminSendBtn" class="send-btn" disabled>
@@ -315,7 +434,7 @@
           </button>
         </div>
         <div id="adminError" class="error"></div>
-      </div>
+      </section>
     </div>
   </div>
 
@@ -323,16 +442,16 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script>
-    // همون config که در index.html گذاشتی رو اینجا هم بذار
+    // همان تنظیماتی که Firebase بهت داد
     const firebaseConfig = {
-  apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
-  authDomain: "nulimit-support.firebaseapp.com",
-  projectId: "nulimit-support",
-  storageBucket: "nulimit-support.firebasestorage.app",
-  messagingSenderId: "325154539382",
-  appId: "1:325154539382:web:06d02a36452866c15f9c57",
-  measurementId: "G-F8DN4LMKKG"
-};
+      apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
+      authDomain: "nulimit-support.firebaseapp.com",
+      projectId: "nulimit-support",
+      storageBucket: "nulimit-support.firebasestorage.app",
+      messagingSenderId: "325154539382",
+      appId: "1:325154539382:web:06d02a36452866c15f9c57",
+      measurementId: "G-F8DN4LMKKG"
+    };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
@@ -356,10 +475,12 @@
         convListEl.innerHTML = '';
         const count = snapshot.size;
         convCountLabel.textContent = count + ' گفتگو';
+
         if (snapshot.empty) {
-          convListEl.innerHTML = '<div class="empty-state" style="padding:20px 10px;">هنوز هیچ گفتگویی ثبت نشده است.</div>';
+          convListEl.innerHTML = '<div class="empty">هنوز هیچ گفتگویی ثبت نشده است.</div>';
           return;
         }
+
         snapshot.forEach(doc => {
           const c = doc.data();
           const item = document.createElement('div');
@@ -376,7 +497,7 @@
           const right = document.createElement('div');
           right.style.display = 'flex';
           right.style.alignItems = 'center';
-          right.style.gap = '6px';
+          right.style.gap = '4px';
 
           if (c.unreadForAdmin) {
             const unread = document.createElement('span');
@@ -404,33 +525,38 @@
           item.appendChild(last);
 
           item.addEventListener('click', () => {
-            selectConversation(doc.id, c);
+            selectConversation(doc.id, c.userId || doc.id);
           });
 
           convListEl.appendChild(item);
         });
       });
 
-    function selectConversation(userId, convData) {
+    function selectConversation(userId, displayId) {
       selectedUserId = userId;
       adminError.textContent = '';
-      currentUserTitle.textContent = 'گفتگو با: ' + (convData.userId || userId);
-      currentUserSub.textContent = 'پیام‌های جدید کاربر را در این بخش می‌بینید و می‌توانید پاسخ دهید.';
+
+      currentUserTitle.textContent = 'گفتگو با: ' + (displayId || userId);
+      currentUserSub.textContent = 'پیام‌های این کاربر در پایین نمایش داده می‌شود.';
+
       replyInput.disabled = false;
       adminSendBtn.disabled = false;
 
-      // پیام‌ها برای ادمین خوانده شد
+      // گفتگو را خوانده‌شده برای ادمین علامت بزن
       db.collection('conversations').doc(userId).set({
         unreadForAdmin: false
       }, { merge: true });
 
-      // آیتم فعال
+      // هایلایت گفتگو
       Array.from(convListEl.children).forEach(el => {
-        el.classList.toggle('active', el.dataset.id === userId);
+        if (el.classList && el.classList.contains('conv-item')) {
+          el.classList.toggle('active', el.dataset.id === userId);
+        }
       });
 
-      // لایو پیام‌ها
+      // سابسکرایب پیام‌ها
       if (unsubscribeMessages) unsubscribeMessages();
+
       const msgsRef = db
         .collection('conversations')
         .doc(userId)
@@ -440,9 +566,10 @@
       unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
         messagesEl.innerHTML = '';
         if (snapshot.empty) {
-          messagesEl.innerHTML = '<div class="empty-state">این گفتگو هنوز پیامی ندارد.</div>';
+          messagesEl.innerHTML = '<div class="empty">این گفتگو هنوز پیامی ندارد.</div>';
           return;
         }
+
         snapshot.forEach(doc => {
           const m = doc.data();
           const row = document.createElement('div');
@@ -454,19 +581,20 @@
 
           const time = document.createElement('div');
           time.className = 'time';
-          const date = m.createdAt ? m.createdAt.toDate() : new Date();
+          const date = m.createdAt && m.createdAt.toDate ? m.createdAt.toDate() : new Date();
           time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
           bubble.appendChild(time);
           row.appendChild(bubble);
           messagesEl.appendChild(row);
         });
+
         messagesEl.scrollTop = messagesEl.scrollHeight + 200;
       });
     }
 
     adminSendBtn.addEventListener('click', sendReply);
-    replyInput.addEventListener('keydown', (e) => {
+    replyInput.addEventListener('keydown', e => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendReply();
@@ -475,11 +603,12 @@
 
     function sendReply() {
       if (!selectedUserId) {
-        adminError.textContent = 'ابتدا یک گفتگو را انتخاب کنید.';
+        adminError.textContent = 'ابتدا یک گفتگو را از لیست انتخاب کنید.';
         return;
       }
       const text = (replyInput.value || '').trim();
       if (!text) return;
+
       replyInput.value = '';
       replyInput.focus();
 
@@ -488,11 +617,13 @@
 
       const batch = db.batch();
       const msgDoc = msgsRef.doc();
+
       batch.set(msgDoc, {
         text,
         sender: 'admin',
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
+
       batch.set(convRef, {
         lastMessage: text,
         lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -501,7 +632,7 @@
 
       batch.commit().catch(err => {
         console.error(err);
-        adminError.textContent = 'خطا در ارسال پیام. دوباره تلاش کنید.';
+        adminError.textContent = 'خطا در ارسال پاسخ. لطفاً دوباره تلاش کنید.';
       });
     }
   </script>
