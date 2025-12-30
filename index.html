@@ -1,2 +1,484 @@
-# NuLimit-support
-My chat
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>NuLimit Support - پشتیبانی آنلاین</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050814;
+      --bg-card:rgba(10,12,30,0.9);
+      --accent:#fbbf24;
+      --accent2:#6366f1;
+      --text:#f9fafb;
+      --text-muted:#a1a5c3;
+      --danger:#ff4b81;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'Vazirmatn',system-ui,-apple-system,blinkmacsystemfont,sans-serif;
+      background:radial-gradient(circle at top, #192045 0, #050814 55%, #02030a 100%);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+    .glass-card{
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.85));
+      border-radius:24px;
+      padding:20px 18px 18px;
+      border:1px solid rgba(148,163,184,0.25);
+      box-shadow:0 24px 60px rgba(15,23,42,0.9);
+      backdrop-filter:blur(22px);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:4px;
+    }
+    .brand-left{display:flex;align-items:center;gap:10px;}
+    .logo-circle{
+      width:36px;height:36px;border-radius:18px;
+      background:conic-gradient(from 210deg,#facc15,#fb7185,#a855f7,#38bdf8,#facc15);
+      padding:2px;
+    }
+    .logo-inner{
+      width:100%;height:100%;border-radius:inherit;
+      background:radial-gradient(circle at 20% 0,#1f2937,#020617);
+      display:flex;align-items:center;justify-content:center;
+      color:#f9fafb;font-weight:700;font-size:16px;
+    }
+    .brand-text h1{
+      font-size:16px;font-weight:600;
+    }
+    .brand-text span{
+      font-size:11px;color:var(--text-muted);
+    }
+    .status-pill{
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(34,197,94,0.14);
+      color:#4ade80;
+      display:flex;align-items:center;gap:6px;
+    }
+    .status-dot{
+      width:7px;height:7px;border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 12px rgba(34,197,94,0.9);
+    }
+    .section-title{
+      font-size:13px;
+      color:var(--text-muted);
+    }
+    .id-box{
+      display:flex;
+      gap:8px;
+      margin-top:4px;
+      margin-bottom:4px;
+    }
+    .id-input{
+      flex:1;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.6);
+      background:rgba(15,23,42,0.8);
+      color:var(--text);
+      padding:8px 12px;
+      font-size:13px;
+      outline:none;
+      transition:all .2s;
+    }
+    .id-input:focus{
+      border-color:var(--accent2);
+      box-shadow:0 0 0 1px rgba(129,140,248,0.7);
+    }
+    .id-btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 14px;
+      font-size:13px;
+      background:linear-gradient(135deg,#fbbf24,#f97316);
+      color:#111827;
+      font-weight:600;
+      cursor:pointer;
+      white-space:nowrap;
+      box-shadow:0 12px 30px rgba(251,191,36,0.38);
+      transition:transform .12s, box-shadow .12s, filter .15s;
+    }
+    .id-btn:hover{
+      filter:brightness(1.05);
+      box-shadow:0 16px 40px rgba(251,191,36,0.50);
+      transform:translateY(-1px);
+    }
+    .id-btn:active{
+      transform:translateY(0);
+      box-shadow:0 10px 24px rgba(251,191,36,0.35);
+    }
+    .hint{
+      font-size:11px;
+      color:var(--text-muted);
+    }
+    .chat-box{
+      margin-top:4px;
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,0.30);
+      background:radial-gradient(circle at 0 0,rgba(56,189,248,0.05),rgba(15,23,42,0.95));
+      display:flex;
+      flex-direction:column;
+      height:340px;
+      overflow:hidden;
+    }
+    .chat-header{
+      padding:10px 12px 8px;
+      border-bottom:1px solid rgba(148,163,184,0.25);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:12px;
+    }
+    .chat-header-left{display:flex;flex-direction:column;gap:2px;}
+    .chat-header-left span:first-child{
+      font-weight:500;
+    }
+    .chat-header-left span:last-child{
+      font-size:11px;color:var(--text-muted);
+    }
+    .badge-soft{
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(129,140,248,0.15);
+      color:#c7d2fe;
+      font-size:11px;
+    }
+    .messages{
+      flex:1;
+      padding:10px 10px 12px;
+      overflow-y:auto;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      scroll-behavior:smooth;
+    }
+    .msg-row{
+      display:flex;
+      width:100%;
+    }
+    .msg-row.user{justify-content:flex-start;}
+    .msg-row.admin{justify-content:flex-end;}
+    .bubble{
+      max-width:78%;
+      padding:7px 10px 6px;
+      border-radius:14px;
+      font-size:12px;
+      line-height:1.6;
+      position:relative;
+    }
+    .bubble.user{
+      background:rgba(30,64,175,0.9);
+      border-bottom-right-radius:4px;
+    }
+    .bubble.admin{
+      background:linear-gradient(135deg,#fbbf24,#f97316);
+      color:#111827;
+      border-bottom-left-radius:4px;
+    }
+    .time{
+      margin-top:1px;
+      font-size:10px;
+      opacity:.75;
+      text-align:left;
+      direction:ltr;
+    }
+    .empty-state{
+      text-align:center;
+      margin-top:32px;
+      font-size:12px;
+      color:var(--text-muted);
+    }
+    .empty-state strong{color:#e5e7eb;}
+    .input-row{
+      border-top:1px solid rgba(148,163,184,0.25);
+      padding:8px;
+      display:flex;
+      gap:6px;
+      background:linear-gradient(to right,rgba(15,23,42,0.98),rgba(17,24,39,0.98));
+    }
+    .msg-input{
+      flex:1;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.45);
+      background:rgba(15,23,42,0.95);
+      color:var(--text);
+      padding:8px 12px;
+      font-size:12px;
+      outline:none;
+      resize:none;
+      max-height:60px;
+      min-height:34px;
+    }
+    .send-btn{
+      border:none;
+      border-radius:999px;
+      padding:0 14px;
+      font-size:13px;
+      background:linear-gradient(135deg,#4f46e5,#a855f7);
+      color:#f9fafb;
+      font-weight:500;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 10px 28px rgba(79,70,229,0.55);
+      transition:transform .12s, box-shadow .12s, filter .15s;
+    }
+    .send-btn:hover{
+      filter:brightness(1.05);
+      transform:translateY(-1px);
+      box-shadow:0 14px 34px rgba(79,70,229,0.65);
+    }
+    .send-btn:active{
+      transform:translateY(0);
+      box-shadow:0 9px 22px rgba(79,70,229,0.50);
+    }
+    .send-icon{
+      width:14px;height:14px;
+      border-radius:999px;
+      border:1px solid rgba(226,232,240,0.7);
+      display:flex;align-items:center;justify-content:center;
+      font-size:10px;
+    }
+    .disabled{
+      opacity:.5;
+      pointer-events:none;
+    }
+    .error{
+      font-size:11px;
+      color:var(--danger);
+      margin-top:2px;
+      min-height:14px;
+    }
+    @media (max-width:480px){
+      .glass-card{padding:18px 14px 14px;border-radius:20px;}
+      .chat-box{height:360px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-card">
+    <div class="brand">
+      <div class="brand-left">
+        <div class="logo-circle"><div class="logo-inner">N</div></div>
+        <div class="brand-text">
+          <h1>NuLimit Support</h1>
+          <span>پشتیبانی اختصاصی و محرمانه</span>
+        </div>
+      </div>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>آنلاین</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">۱. ساخت آیدی گفتگو</div>
+      <div class="id-box">
+        <input id="userIdInput" class="id-input" placeholder="مثلاً: nima_fx یا sara123" />
+        <button id="saveIdBtn" class="id-btn">تأیید آیدی</button>
+      </div>
+      <div class="hint" id="idHint">
+        این آیدی برای ادامه‌ی چت با شما استفاده می‌شود. بهتر است یکتا باشد.
+      </div>
+      <div class="error" id="idError"></div>
+    </div>
+
+    <div>
+      <div class="section-title">۲. گفت‌وگوی مستقیم با NuLimit</div>
+      <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <span>چت اختصاصی شما</span>
+            <span id="userIdLabel">لطفاً ابتدا آیدی خود را ثبت کنید.</span>
+          </div>
+          <div class="badge-soft">امن و محرمانه</div>
+        </div>
+        <div class="messages" id="messages">
+          <div class="empty-state">
+            <strong>سلام!</strong><br>
+            آیدی خود را ثبت کنید و اولین پیام‌تان را برای تیم NuLimit بفرستید.
+          </div>
+        </div>
+        <div class="input-row">
+          <textarea id="messageInput" class="msg-input" rows="1" placeholder="پیام خود را بنویسید..." disabled></textarea>
+          <button id="sendBtn" class="send-btn disabled">
+            <span>ارسال</span>
+            <span class="send-icon">➤</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // TODO: این مقادیر را با تنظیمات پروژه Firebase خود عوض کن
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const userIdInput = document.getElementById('userIdInput');
+    const saveIdBtn = document.getElementById('saveIdBtn');
+    const idError = document.getElementById('idError');
+    const idHint = document.getElementById('idHint');
+    const userIdLabel = document.getElementById('userIdLabel');
+    const messagesEl = document.getElementById('messages');
+    const msgInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    let currentUserId = null;
+    let unsubscribeMessages = null;
+
+    // اگر قبلاً آیدی در مرورگر ذخیره شده باشد
+    const savedId = localStorage.getItem('nulimit_user_id');
+    if (savedId) {
+      userIdInput.value = savedId;
+      setUserId(savedId, false);
+    }
+
+    saveIdBtn.addEventListener('click', () => {
+      const val = (userIdInput.value || '').trim();
+      if (!val) {
+        idError.textContent = 'لطفاً یک آیدی وارد کنید.';
+        return;
+      }
+      if (val.length < 3) {
+        idError.textContent = 'آیدی باید حداقل ۳ حرف باشد.';
+        return;
+      }
+      setUserId(val, true);
+    });
+
+    function setUserId(id, fromUser) {
+      currentUserId = id;
+      localStorage.setItem('nulimit_user_id', id);
+      idError.textContent = '';
+      idHint.textContent = 'آیدی شما ثبت شد. از این آیدی برای ادامه‌ی گفتگو استفاده می‌شود.';
+      userIdLabel.textContent = 'آیدی شما: ' + id;
+      msgInput.disabled = false;
+      sendBtn.classList.remove('disabled');
+      // ایجاد/به‌روزرسانی سند گفتگو
+      const convRef = db.collection('conversations').doc(id);
+      convRef.set({
+        userId: id,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastMessage: fromUser ? 'شروع گفتگو توسط کاربر' : 'بازیابی گفتگو',
+        lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        unreadForAdmin: !!fromUser,
+        unreadForUser: false
+      }, { merge: true });
+      subscribeToMessages();
+    }
+
+    function subscribeToMessages() {
+      if (!currentUserId) return;
+      if (unsubscribeMessages) unsubscribeMessages();
+
+      const msgsRef = db
+        .collection('conversations')
+        .doc(currentUserId)
+        .collection('messages')
+        .orderBy('createdAt', 'asc');
+
+      unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
+        messagesEl.innerHTML = '';
+        if (snapshot.empty) {
+          messagesEl.innerHTML = '<div class="empty-state">هنوز پیامی ارسال نشده است. اولین پیام را شما بفرستید.</div>';
+          return;
+        }
+        snapshot.forEach(doc => {
+          const m = doc.data();
+          const row = document.createElement('div');
+          row.className = 'msg-row ' + (m.sender === 'admin' ? 'admin' : 'user');
+
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
+          bubble.textContent = m.text;
+
+          const time = document.createElement('div');
+          time.className = 'time';
+          const date = m.createdAt ? m.createdAt.toDate() : new Date();
+          time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+
+          bubble.appendChild(time);
+          row.appendChild(bubble);
+          messagesEl.appendChild(row);
+        });
+        messagesEl.scrollTop = messagesEl.scrollHeight + 200;
+      });
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    msgInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function sendMessage() {
+      if (!currentUserId) {
+        idError.textContent = 'ابتدا آیدی خود را ثبت کنید.';
+        return;
+      }
+      const text = (msgInput.value || '').trim();
+      if (!text) return;
+
+      msgInput.value = '';
+      msgInput.focus();
+
+      const convRef = db.collection('conversations').doc(currentUserId);
+      const msgsRef = convRef.collection('messages');
+
+      const batch = db.batch();
+      const msgDoc = msgsRef.doc();
+      batch.set(msgDoc, {
+        text,
+        sender: 'user',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      batch.set(convRef, {
+        userId: currentUserId,
+        lastMessage: text,
+        lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        unreadForAdmin: true,
+        unreadForUser: false
+      }, { merge: true });
+
+      batch.commit().catch(err => {
+        console.error(err);
+        idError.textContent = 'خطا در ارسال پیام. لطفاً دوباره تلاش کنید.';
+      });
+    }
+  </script>
+</body>
+</html>
