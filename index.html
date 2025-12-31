@@ -414,6 +414,14 @@
 
       subscribeToMessages();
     }
+    
+function notifyBeep() {
+  try {
+    if (window.Android && typeof window.Android.beep === 'function') {
+      window.Android.beep(); // صدای native داخل اپ (WebView)
+    }
+  } catch (e) {}
+}
 
     function subscribeToMessages() {
       if (!currentUserId) return;
@@ -425,35 +433,53 @@
         .collection('messages')
         .orderBy('createdAt', 'asc');
 
-      unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
-        messagesEl.innerHTML = '';
-        if (snapshot.empty) {
-          messagesEl.innerHTML = '<div class="empty-state">هنوز پیامی ارسال نشده است. اولین پیام را شما بفرستید.</div>';
-          return;
+      let initial = true;
+
+unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
+  // فقط بعد از لود اولیه، اگر پیام جدید از ادمین اضافه شد بوق بزن
+  if (!initial) {
+    snapshot.docChanges().forEach(ch => {
+      if (ch.type === 'added') {
+        const m = ch.doc.data() || {};
+        if (m.sender === 'admin') {
+          notifyBeep();
         }
+      }
+    });
+  }
+  initial = false;
 
-        snapshot.forEach(doc => {
-          const m = doc.data();
-          const row = document.createElement('div');
-          row.className = 'msg-row ' + (m.sender === 'admin' ? 'admin' : 'user');
+  // --- رندر قبلی خودت ---
+  messagesEl.innerHTML = '';
+  if (snapshot.empty) {
+    messagesEl.innerHTML = '<div class="empty-state">هنوز پیامی ارسال نشده است. اولین پیام را شما بفرستید.</div>';
+    return;
+  }
 
-          const bubble = document.createElement('div');
-          bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
-          bubble.textContent = m.text || '';
+  snapshot.forEach(doc => {
+    const m = doc.data();
 
-          const time = document.createElement('div');
-          time.className = 'time';
-          const date = (m.createdAt && m.createdAt.toDate) ? m.createdAt.toDate() : new Date();
-          time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + (m.sender === 'admin' ? 'admin' : 'user');
 
-          bubble.appendChild(time);
-          row.appendChild(bubble);
-          messagesEl.appendChild(row);
-        });
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
+    bubble.textContent = m.text || '';
 
-        messagesEl.scrollTop = messagesEl.scrollHeight + 200;
-      }, err => {
-        console.error(err);
+    const time = document.createElement('div');
+    time.className = 'time';
+    const date = (m.createdAt && m.createdAt.toDate) ? m.createdAt.toDate() : new Date();
+    time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+
+    bubble.appendChild(time);
+    row.appendChild(bubble);
+    messagesEl.appendChild(row);
+  });
+
+  messagesEl.scrollTop = messagesEl.scrollHeight + 200;
+}, (err) => {
+  console.error(err);
+});
         idError.textContent = 'خطا در دریافت پیام‌ها. لطفاً دوباره تلاش کنید.';
       });
     }
