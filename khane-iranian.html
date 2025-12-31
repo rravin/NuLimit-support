@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>خانه ایرانیان | چت‌روم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#050814;
+      --stroke:rgba(148,163,184,0.22);
+      --text:#f9fafb;
+      --muted:#a1a5c3;
+      --danger:#ff4b81;
+      --ok:#4ade80;
+      --gold:#fbbf24;
+      --indigo:#6366f1;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Vazirmatn',system-ui,-apple-system,sans-serif;
+      background:radial-gradient(circle at top, #192045 0, #050814 55%, #02030a 100%);
+      color:var(--text);
+      min-height:100vh;
+      padding:14px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{width:100%;max-width:1100px;display:flex;flex-direction:column;gap:12px;}
+
+    .topbar{
+      background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.85));
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      backdrop-filter:blur(18px);
+      box-shadow:0 18px 50px rgba(15,23,42,0.85);
+    }
+    .brand{display:flex;align-items:center;gap:10px;}
+    .logo{
+      width:40px;height:40px;border-radius:999px;
+      background:conic-gradient(from 210deg,#facc15,#fb7185,#a855f7,#38bdf8,#facc15);
+      padding:2px;flex:0 0 auto;
+    }
+    .logo>div{
+      width:100%;height:100%;border-radius:inherit;
+      background:radial-gradient(circle at 20% 0,#1f2937,#020617);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;
+    }
+    .brand h1{font-size:16px;font-weight:900;line-height:1.1}
+    .brand p{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .pill{
+      border:1px solid var(--stroke);
+      background:rgba(15,23,42,0.65);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      outline:none;
+    }
+    .btn{
+      border:none;border-radius:999px;padding:9px 12px;
+      font-size:12px;font-weight:900;cursor:pointer;
+      color:#0b1220;
+      background:linear-gradient(135deg,#fbbf24,#f97316);
+      box-shadow:0 12px 28px rgba(251,191,36,0.22);
+      transition:transform .12s, filter .12s, box-shadow .12s;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 16px 35px rgba(251,191,36,0.28)}
+    .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;filter:none;box-shadow:none}
+    .btn2{
+      background:linear-gradient(135deg,#4f46e5,#a855f7);
+      color:#f9fafb;
+      box-shadow:0 12px 28px rgba(79,70,229,0.22);
+    }
+    .btnGray{
+      background:linear-gradient(135deg,#64748b,#334155);
+      color:#fff;
+      box-shadow:0 12px 28px rgba(148,163,184,0.12);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1.75fr;
+      gap:12px;
+    }
+    @media (max-width:940px){ .grid{grid-template-columns:1fr} }
+
+    .panel{
+      background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(15,23,42,0.86));
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 18px 50px rgba(15,23,42,0.75);
+      backdrop-filter:blur(18px);
+      min-height:560px;
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+    }
+    .panelHeader{
+      padding:12px;border-bottom:1px solid var(--stroke);
+      display:flex;justify-content:space-between;align-items:center;gap:8px;
+      flex-wrap:wrap;
+    }
+    .panelHeader .title{display:flex;flex-direction:column;gap:3px;}
+    .panelHeader .title span:first-child{font-size:13px;font-weight:950;}
+    .panelHeader .title span:last-child{font-size:11px;color:var(--muted);}
+
+    .err{
+      display:none;
+      padding:10px 12px;
+      border-top:1px solid var(--stroke);
+      background:rgba(239,68,68,0.06);
+      color:var(--danger);
+      font-size:12px;
+      line-height:1.6;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .ok{
+      display:none;
+      padding:10px 12px;
+      border-top:1px solid var(--stroke);
+      background:rgba(34,197,94,0.08);
+      color:var(--ok);
+      font-size:12px;
+      line-height:1.6;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    /* Users */
+    .userList{
+      padding:10px;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-height:0;
+      flex:1;
+    }
+    .userItem{
+      border:1px solid rgba(148,163,184,0.18);
+      background:rgba(2,6,23,0.45);
+      border-radius:14px;
+      padding:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+    .userItem.top1{border-color:rgba(255,215,0,0.55);background:linear-gradient(135deg,rgba(255,215,0,0.10),rgba(2,6,23,0.42));}
+    .userItem.top2{border-color:rgba(192,192,192,0.45);background:linear-gradient(135deg,rgba(192,192,192,0.09),rgba(2,6,23,0.42));}
+    .userItem.top3{border-color:rgba(205,127,50,0.45);background:linear-gradient(135deg,rgba(205,127,50,0.10),rgba(2,6,23,0.42));}
+
+    .userLeft{min-width:0;display:flex;flex-direction:column;gap:4px;}
+    .userName{font-size:13px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .userSub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .userRight{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+    .userRank{font-size:11px;color:var(--muted);direction:ltr;}
+    .userTime{font-size:11px;color:var(--muted);direction:ltr;white-space:nowrap;}
+
+    .crown{
+      display:inline-block;
+      margin-left:6px;
+      font-size:14px;
+      font-weight:900;
+      transform:translateY(1px);
+    }
+    .tierChip{
+      display:inline-block;
+      margin-right:6px;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:10px;
+      border:1px solid rgba(148,163,184,0.18);
+      background:rgba(15,23,42,0.65);
+      color:#e5e7eb;
+      white-space:nowrap;
+    }
+
+    /* Chat */
+    .chatMessages{
+      flex:1;min-height:0;overflow:auto;padding:12px;
+      display:flex;flex-direction:column;gap:8px;
+      background:radial-gradient(circle at 0 0,rgba(56,189,248,0.05),rgba(15,23,42,0.92));
+    }
+    .empty{margin-top:30px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7;}
+    .row{display:flex;width:100%;}
+    .row.me{justify-content:flex-end;}
+    .row.other{justify-content:flex-start;}
+    .bubble{
+      max-width:82%;
+      padding:8px 10px 7px;
+      border-radius:14px;
+      font-size:12px;
+      line-height:1.7;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .bubble.me{background:linear-gradient(135deg,#fbbf24,#f97316);color:#111827;border-bottom-left-radius:5px;}
+    .bubble.other{background:rgba(30,64,175,0.9);border-bottom-right-radius:5px;}
+    .meta{
+      margin-top:4px;
+      font-size:10px;
+      opacity:.88;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      direction:ltr;
+      align-items:center;
+    }
+    .metaLeft{
+      direction:rtl;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      min-width:0;
+    }
+    .metaNick{
+      font-weight:800;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:150px;
+    }
+
+    .chatInput{
+      border-top:1px solid var(--stroke);
+      padding:10px;
+      display:flex;
+      gap:8px;
+      background:linear-gradient(to right,rgba(15,23,42,0.98),rgba(17,24,39,0.98));
+    }
+    .ta{
+      flex:1;border-radius:999px;border:1px solid rgba(148,163,184,0.45);
+      background:rgba(15,23,42,0.95);color:var(--text);
+      padding:9px 12px;font-size:12px;outline:none;resize:none;
+      max-height:110px;min-height:38px;
+    }
+
+    .loadMoreRow{
+      display:flex;
+      justify-content:center;
+      margin:6px 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo"><div>ن</div></div>
+        <div>
+          <h1>خانه ایرانیان</h1>
+          <p>فقط یک روم (همه وصل میشن) + تاج مرحله‌ای + رتبه‌بندی + بوق پیام</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <input id="nickInput" class="pill" placeholder="نام شما (مثلاً: ravin)" style="min-width:190px" />
+        <button id="saveNickBtn" class="btn btn2" type="button">ثبت نام</button>
+
+        <button id="soundToggleBtn" class="btn btnGray" type="button">صدا: خاموش</button>
+        <button id="beepTestBtn" class="btn" type="button">تست صدا</button>
+
+        <span id="statusPill" class="pill">در حال اتصال...</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Users -->
+      <div class="panel">
+        <div class="panelHeader">
+          <div class="title">
+            <span>آنلاین‌ها و رتبه‌بندی</span>
+            <span id="usersInfo">...</span>
+          </div>
+          <button id="refreshBtn" class="btn" type="button">رفرش</button>
+        </div>
+
+        <div id="userList" class="userList">
+          <div class="empty">در حال دریافت لیست کاربران...</div>
+        </div>
+
+        <div class="err" id="usersError"></div>
+        <div class="ok" id="usersOk"></div>
+      </div>
+
+      <!-- Chat -->
+      <div class="panel">
+        <div class="panelHeader">
+          <div class="title">
+            <span>چت</span>
+            <span id="chatInfo">روم: خانه ایرانیان</span>
+          </div>
+          <button id="loadMoreBtn" class="btn btnGray" type="button" disabled>پیام‌های قدیمی‌تر</button>
+        </div>
+
+        <div id="chatMessages" class="chatMessages">
+          <div class="empty">هنوز پیامی نیست. اولین پیام را بفرست.</div>
+        </div>
+
+        <div class="chatInput">
+          <textarea id="msgInput" class="ta" rows="1" placeholder="پیام..." disabled></textarea>
+          <button id="sendBtn" class="btn btn2" type="button" disabled>ارسال</button>
+        </div>
+
+        <div class="err" id="chatError"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ---------- Error display
+    window.addEventListener('error', function(e){
+      try{
+        var ue = document.getElementById('usersError');
+        ue.style.display = 'block';
+        ue.textContent = 'خطای اسکریپت: ' + (e.message || 'نامشخص');
+      }catch(_) {}
+      console.error(e);
+    });
+    window.addEventListener('unhandledrejection', function(e){
+      try{
+        var ue = document.getElementById('usersError');
+        var m = (e.reason && (e.reason.message || e.reason.code)) ? (e.reason.message || e.reason.code) : String(e.reason || '');
+        ue.style.display = 'block';
+        ue.textContent = 'خطای برنامه: ' + (m || 'نامشخص');
+      }catch(_) {}
+      console.error(e.reason);
+    });
+
+    // ---------- Firebase config
+    var firebaseConfig = {
+      apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
+      authDomain: "nulimit-support.firebaseapp.com",
+      projectId: "nulimit-support",
+      storageBucket: "nulimit-support.firebasestorage.app",
+      messagingSenderId: "325154539382",
+      appId: "1:325154539382:web:06d02a36452866c15f9c57",
+      measurementId: "G-F8DN4LMKKG"
+    };
+
+    if (!firebase.apps || firebase.apps.length === 0) firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    // ---------- Single room only
+    var ROOM_ID = "khane_iranian";
+    var ROOM_NAME = "خانه ایرانیان";
+
+    // ---------- UI
+    var nickInput = document.getElementById('nickInput');
+    var saveNickBtn = document.getElementById('saveNickBtn');
+    var statusPill = document.getElementById('statusPill');
+    var beepTestBtn = document.getElementById('beepTestBtn');
+    var soundToggleBtn = document.getElementById('soundToggleBtn');
+
+    var refreshBtn = document.getElementById('refreshBtn');
+    var userListEl = document.getElementById('userList');
+    var usersInfo = document.getElementById('usersInfo');
+    var usersError = document.getElementById('usersError');
+    var usersOk = document.getElementById('usersOk');
+
+    var chatMessagesEl = document.getElementById('chatMessages');
+    var msgInput = document.getElementById('msgInput');
+    var sendBtn = document.getElementById('sendBtn');
+    var chatError = document.getElementById('chatError');
+    var loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    function showErr(el, msg){
+      el.style.display = msg ? 'block' : 'none';
+      el.textContent = msg || '';
+    }
+    function showOk(el, msg){
+      el.style.display = msg ? 'block' : 'none';
+      el.textContent = msg || '';
+    }
+
+    // ---------- local storage
+    var LS_DEVICE = 'khane_iranian_device_v2';
+    var LS_NICK = 'khane_iranian_nick_v2';
+    var LS_SOUND = 'khane_iranian_sound_v1';
+
+    function lsGet(k){ try { return localStorage.getItem(k); } catch(e) { return null; } }
+    function lsSet(k,v){ try { localStorage.setItem(k,v); return true; } catch(e) { return false; } }
+
+    function getOrCreateDeviceKey() {
+      var k = lsGet(LS_DEVICE);
+      if (!k) {
+        k = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 12);
+        lsSet(LS_DEVICE, k);
+      }
+      return k;
+    }
+    var deviceKey = getOrCreateDeviceKey();
+
+    // ---------- sound toggle + beep (Android WebView)
+    var soundEnabled = (lsGet(LS_SOUND) === '1');
+    function updateSoundBtn(){
+      soundToggleBtn.textContent = soundEnabled ? 'صدا: روشن' : 'صدا: خاموش';
+    }
+    updateSoundBtn();
+
+    soundToggleBtn.addEventListener('click', function(){
+      soundEnabled = !soundEnabled;
+      lsSet(LS_SOUND, soundEnabled ? '1' : '0');
+      updateSoundBtn();
+      if (soundEnabled) notifyBeep();
+    });
+
+    function notifyBeep(){
+      if (!soundEnabled) return;
+      try{
+        if (window.Android && typeof window.Android.beep === 'function') window.Android.beep();
+      }catch(e){}
+    }
+
+    beepTestBtn.addEventListener('click', function(){
+      notifyBeep();
+      showOk(usersOk, 'تست صدا اجرا شد.');
+      setTimeout(function(){ showOk(usersOk, ''); }, 1200);
+    });
+
+    // ---------- helpers
+    function normalizeNick(raw){
+      var s = (raw || '').trim();
+      s = s.replace(/\s+/g, ' ');
+      if (s.length > 20) s = s.slice(0, 20);
+      return s;
+    }
+
+    function nowTime(ts){
+      try{
+        var d = ts && ts.toDate ? ts.toDate() : new Date();
+        return d.toLocaleTimeString('fa-IR', { hour:'2-digit', minute:'2-digit' });
+      }catch(e){ return ''; }
+    }
+
+    function pointsToHuman(points){
+      var sec = (points || 0) * 15;
+      var h = Math.floor(sec / 3600);
+      var m = Math.floor((sec % 3600) / 60);
+      if (h <= 0) return m + ' دقیقه';
+      return h + ' ساعت ' + m + ' دقیقه';
+    }
+
+    // ==========================================================
+    // تاج Tier دار مثل Raidcall + چیپ سطح + Top 10 هایلایت
+    // هر point = 15 ثانیه
+    // ==========================================================
+    function pointsToMinutes(points){
+      return Math.floor(((points || 0) * 15) / 60);
+    }
+
+    function getCrownTier(points){
+      var p = Math.max(0, points || 0);
+
+      // 5m=20, 30m=120, 2h=480, 8h=1920, 1d=5760, 3d=17280, 7d=40320, 30d=172800
+      var tiers = [
+        { min: 20,     rank: 1, name: 'برنزی',     color: '#CD7F32', glow: 'rgba(205,127,50,0.35)'  },
+        { min: 120,    rank: 2, name: 'نقره‌ای',   color: '#C0C0C0', glow: 'rgba(192,192,192,0.35)' },
+        { min: 480,    rank: 3, name: 'طلایی',     color: '#FFD700', glow: 'rgba(255,215,0,0.38)'   },
+        { min: 1920,   rank: 4, name: 'پلاتینی',   color: '#7DD3FC', glow: 'rgba(125,211,252,0.38)' },
+        { min: 5760,   rank: 5, name: 'الماسی',    color: '#A78BFA', glow: 'rgba(167,139,250,0.42)' },
+        { min: 17280,  rank: 6, name: 'افسانه‌ای', color: '#22C55E', glow: 'rgba(34,197,94,0.45)'   },
+        { min: 40320,  rank: 7, name: 'سلطنتی',    color: '#FB7185', glow: 'rgba(251,113,133,0.50)' },
+        { min: 172800, rank: 8, name: 'اسطوره',    color: '#F97316', glow: 'rgba(249,115,22,0.60)'  }
+      ];
+
+      var tier = null;
+      for (var i=0;i<tiers.length;i++){
+        if (p >= tiers[i].min) tier = tiers[i];
+      }
+      return tier;
+    }
+
+    function crownStyleFor(points){
+      var tier = getCrownTier(points);
+      if (!tier) return null;
+
+      var mins = pointsToMinutes(points);
+      return {
+        tierRank: tier.rank,
+        tierName: tier.name,
+        color: tier.color,
+        textShadow: '0 0 10px ' + tier.glow + ', 0 0 18px ' + tier.glow,
+        title: 'تاج ' + tier.name + ' • آنلاین: ' + mins + ' دقیقه'
+      };
+    }
+
+    function roman(n){
+      var map = {1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI',7:'VII',8:'VIII'};
+      return map[n] || '';
+    }
+    // ==========================================================
+
+    // ---------- status
+    function setStatus(text, ok){
+      statusPill.textContent = text;
+      statusPill.style.borderColor = ok ? 'rgba(34,197,94,0.25)' : 'rgba(239,68,68,0.25)';
+      statusPill.style.background = ok ? 'rgba(34,197,94,0.10)' : 'rgba(239,68,68,0.10)';
+      statusPill.style.color = ok ? '#86efac' : '#fecaca';
+    }
+
+    // ---------- state
+    var nick = normalizeNick(lsGet(LS_NICK) || '');
+    if (nick) nickInput.value = nick;
+
+    var unsubUsers = null;
+    var unsubMessages = null;
+
+    var presenceRef = db.collection('rooms').doc(ROOM_ID).collection('presence').doc(deviceKey);
+    var roomRef = db.collection('rooms').doc(ROOM_ID);
+    var messagesRef = roomRef.collection('messages');
+
+    // presence cache for showing crown in messages
+    var presenceByDevice = {}; // deviceKey -> {nick, points}
+
+    // ---------- init room doc (best effort)
+    function ensureRoomDoc(){
+      // اگر Rules اجازه create نده و doc وجود نداشته باشه، این fail میشه و پیام خطا میده
+      roomRef.set({
+        name: ROOM_NAME,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true }).catch(function(err){
+        console.warn(err);
+      });
+    }
+
+    // ---------- presence heartbeat (1 write per 15s)
+    var heartbeatTimer = null;
+
+    function startPresence(){
+      if (!nick || nick.length < 2) return;
+
+      function beat(){
+        // یک write: timestamp + increment
+        presenceRef.set({
+          deviceKey: deviceKey,
+          nick: nick,
+          lastBeatAt: firebase.firestore.FieldValue.serverTimestamp(),
+          online: true,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          onlinePoints: firebase.firestore.FieldValue.increment(1)
+        }, { merge: true }).catch(function(err){
+          console.error(err);
+          showErr(usersError, 'خطا در حضور (presence): ' + (err.code || '') + ' ' + (err.message || ''));
+        });
+      }
+
+      beat();
+      if (heartbeatTimer) clearInterval(heartbeatTimer);
+      heartbeatTimer = setInterval(beat, 15000);
+    }
+
+    // stop presence on hide (optional)
+    document.addEventListener('visibilitychange', function(){
+      if (document.hidden) {
+        // می‌تونی heartbeat رو قطع کنی تا مصرف کم شه (ولی امتیاز آنلاین هم کمتر میشه)
+        // clearInterval(heartbeatTimer);
+      } else {
+        if (nick && nick.length >= 2) startPresence();
+      }
+    });
+
+    // ---------- save nick
+    saveNickBtn.addEventListener('click', function(){
+      showErr(usersError, '');
+      showOk(usersOk, '');
+
+      var n = normalizeNick(nickInput.value);
+      if (!n || n.length < 2) {
+        showErr(usersError, 'نام باید حداقل ۲ کاراکتر باشد.');
+        return;
+      }
+      nick = n;
+      lsSet(LS_NICK, nick);
+      showOk(usersOk, 'نام شما ثبت شد: ' + nick);
+
+      msgInput.disabled = false;
+      sendBtn.disabled = false;
+
+      ensureRoomDoc();
+      startPresence();
+    });
+
+    // ---------- subscribe users (presence)
+    function subscribeUsers(){
+      if (unsubUsers) unsubUsers();
+
+      usersInfo.textContent = 'در حال دریافت...';
+      userListEl.innerHTML = '<div class="empty">در حال دریافت لیست کاربران...</div>';
+      showErr(usersError, '');
+
+      var ref = db.collection('rooms').doc(ROOM_ID)
+        .collection('presence')
+        .orderBy('onlinePoints', 'desc')
+        .limit(120);
+
+      unsubUsers = ref.onSnapshot(function(snap){
+        setStatus('آنلاین', true);
+
+        // rebuild cache
+        presenceByDevice = {};
+
+        var list = [];
+        snap.forEach(function(doc){
+          list.push({ id: doc.id, data: doc.data() || {} });
+        });
+
+        // فقط کسانی که در 60 ثانیه اخیر heartbeat داشتن
+        var now = Date.now();
+        var onlineList = [];
+        for (var i=0;i<list.length;i++){
+          var d = list[i].data || {};
+          var last = d.lastBeatAt && d.lastBeatAt.toDate ? d.lastBeatAt.toDate().getTime() : 0;
+          if (last && (now - last) <= 60000) {
+            onlineList.push(list[i]);
+            presenceByDevice[list[i].id] = {
+              nick: d.nick || 'کاربر',
+              points: d.onlinePoints || 0,
+              lastBeatAt: d.lastBeatAt || null
+            };
+          }
+        }
+
+        usersInfo.textContent = onlineList.length + ' آنلاین • نمایش تا ۱۲۰ نفر';
+
+        userListEl.innerHTML = '';
+        if (!onlineList.length) {
+          userListEl.innerHTML = '<div class="empty">فعلاً کسی آنلاین نیست.</div>';
+          return;
+        }
+
+        for (var j=0;j<onlineList.length;j++){
+          var item = onlineList[j];
+          var u = item.data || {};
+          var uNick = u.nick || 'کاربر';
+          var pts = u.onlinePoints || 0;
+
+          var row = document.createElement('div');
+          row.className = 'userItem';
+          if (j === 0) row.className += ' top1';
+          if (j === 1) row.className += ' top2';
+          if (j === 2) row.className += ' top3';
+
+          var left = document.createElement('div');
+          left.className = 'userLeft';
+
+          var name = document.createElement('div');
+          name.className = 'userName';
+
+          var cs = crownStyleFor(pts);
+          if (cs) {
+            var crown = document.createElement('span');
+            crown.className = 'crown';
+            crown.textContent = '♛';
+            crown.style.color = cs.color;
+            crown.style.textShadow = cs.textShadow;
+            crown.title = cs.title;
+            name.appendChild(crown);
+
+            var chip = document.createElement('span');
+            chip.className = 'tierChip';
+            chip.textContent = cs.tierName + ' ' + roman(cs.tierRank);
+            chip.title = cs.title;
+            name.appendChild(chip);
+          }
+
+          var nameText = document.createElement('span');
+          nameText.textContent = uNick;
+          name.appendChild(nameText);
+
+          var sub = document.createElement('div');
+          sub.className = 'userSub';
+          sub.textContent = 'آنلاین: ' + pointsToHuman(pts);
+
+          left.appendChild(name);
+          left.appendChild(sub);
+
+          var right = document.createElement('div');
+          right.className = 'userRight';
+
+          var rank = document.createElement('div');
+          rank.className = 'userRank';
+          rank.textContent = 'Rank #' + (j + 1);
+
+          var time = document.createElement('div');
+          time.className = 'userTime';
+          time.textContent = nowTime(u.lastBeatAt);
+
+          right.appendChild(rank);
+          right.appendChild(time);
+
+          row.appendChild(left);
+          row.appendChild(right);
+
+          userListEl.appendChild(row);
+        }
+      }, function(err){
+        console.error(err);
+        setStatus('آفلاین', false);
+        showErr(usersError, 'خطا در دریافت کاربران: ' + (err.code || '') + ' ' + (err.message || ''));
+      });
+    }
+
+    // ---------- messages pagination + realtime
+    var initialMessagesLoaded = false;
+    var oldestLoaded = null; // Firestore Timestamp
+    var latestQueryLimit = 200;
+
+    function renderMessagesFromSnapshotDesc(snap, prependOlder){
+      // snap ordered DESC, we render ASC
+      var docs = snap.docs.slice().reverse();
+
+      if (!prependOlder) chatMessagesEl.innerHTML = '';
+
+      if (!docs.length && !prependOlder) {
+        chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی نیست. اولین پیام را بفرست.</div>';
+        return;
+      }
+
+      for (var i=0;i<docs.length;i++){
+        var m = docs[i].data() || {};
+        var mine = (m.deviceKey && m.deviceKey === deviceKey);
+
+        var row = document.createElement('div');
+        row.className = 'row ' + (mine ? 'me' : 'other');
+
+        var bubble = document.createElement('div');
+        bubble.className = 'bubble ' + (mine ? 'me' : 'other');
+
+        var text = (m.text === null || m.text === undefined) ? '' : String(m.text);
+        bubble.textContent = text;
+
+        // meta
+        var meta = document.createElement('div');
+        meta.className = 'meta';
+
+        var metaLeft = document.createElement('div');
+        metaLeft.className = 'metaLeft';
+
+        // crown in messages (based on presence cache)
+        var senderDevice = m.deviceKey || '';
+        var pres = presenceByDevice[senderDevice];
+        var pts = pres ? (pres.points || 0) : (m.senderPoints || 0);
+        var cs = crownStyleFor(pts);
+
+        if (cs) {
+          var crown = document.createElement('span');
+          crown.className = 'crown';
+          crown.textContent = '♛';
+          crown.style.color = cs.color;
+          crown.style.textShadow = cs.textShadow;
+          crown.title = cs.title;
+          metaLeft.appendChild(crown);
+        }
+
+        var nickSpan = document.createElement('span');
+        nickSpan.className = 'metaNick';
+        nickSpan.textContent = (m.nick ? String(m.nick) : (pres ? pres.nick : 'کاربر'));
+        metaLeft.appendChild(nickSpan);
+
+        var right = document.createElement('span');
+        right.textContent = nowTime(m.createdAt);
+
+        meta.appendChild(metaLeft);
+        meta.appendChild(right);
+
+        bubble.appendChild(meta);
+        row.appendChild(bubble);
+
+        if (prependOlder) {
+          // prepend: add to top in order
+          chatMessagesEl.insertBefore(row, chatMessagesEl.firstChild);
+        } else {
+          chatMessagesEl.appendChild(row);
+        }
+      }
+    }
+
+    function subscribeLatestMessages(){
+      if (unsubMessages) unsubMessages();
+
+      showErr(chatError, '');
+      chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
+      loadMoreBtn.disabled = true;
+      initialMessagesLoaded = false;
+      oldestLoaded = null;
+
+      // realtime روی آخرین 200 پیام
+      var q = messagesRef.orderBy('createdAt', 'desc').limit(latestQueryLimit);
+
+      unsubMessages = q.onSnapshot(function(snap){
+        setStatus('آنلاین', true);
+
+        // بوق: فقط بعد از اولین لود و فقط پیام دیگران
+        if (initialMessagesLoaded) {
+          snap.docChanges().forEach(function(ch){
+            if (ch.type === 'added') {
+              var m = ch.doc.data() || {};
+              if (m.deviceKey && m.deviceKey !== deviceKey) notifyBeep();
+            }
+          });
+        }
+
+        // oldest loaded (for load more)
+        if (!snap.empty) {
+          var lastDoc = snap.docs[snap.docs.length - 1];
+          var lastData = lastDoc.data() || {};
+          oldestLoaded = lastData.createdAt || null;
+          loadMoreBtn.disabled = !oldestLoaded; // اگر timestamp نداریم، نمی‌تونیم paginate کنیم
+        } else {
+          oldestLoaded = null;
+          loadMoreBtn.disabled = true;
+        }
+
+        // render
+        renderMessagesFromSnapshotDesc(snap, false);
+
+        // scroll to bottom on first load
+        if (!initialMessagesLoaded) {
+          initialMessagesLoaded = true;
+          chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
+        }
+      }, function(err){
+        console.error(err);
+        setStatus('آفلاین', false);
+        showErr(chatError, 'خطا در دریافت پیام‌ها: ' + (err.code || '') + ' ' + (err.message || ''));
+      });
+    }
+
+    async function loadOlderMessages(){
+      showErr(chatError, '');
+      if (!oldestLoaded) return;
+
+      loadMoreBtn.disabled = true;
+
+      try{
+        // older than oldestLoaded
+        var q = messagesRef
+          .orderBy('createdAt', 'desc')
+          .startAfter(oldestLoaded)
+          .limit(200);
+
+        var snap = await q.get();
+        if (snap.empty) {
+          showOk(usersOk, 'پیام قدیمی‌تری وجود ندارد.');
+          setTimeout(function(){ showOk(usersOk, ''); }, 1200);
+          oldestLoaded = null;
+          loadMoreBtn.disabled = true;
+          return;
+        }
+
+        // update oldestLoaded with new last doc
+        var lastDoc = snap.docs[snap.docs.length - 1];
+        var lastData = lastDoc.data() || {};
+        oldestLoaded = lastData.createdAt || oldestLoaded;
+
+        // prepend messages
+        renderMessagesFromSnapshotDesc(snap, true);
+
+        // keep loadMore enabled
+        loadMoreBtn.disabled = false;
+      } catch(err){
+        console.error(err);
+        showErr(chatError, 'خطا در دریافت پیام‌های قدیمی‌تر: ' + (err.code || '') + ' ' + (err.message || ''));
+        loadMoreBtn.disabled = false;
+      }
+    }
+
+    loadMoreBtn.addEventListener('click', loadOlderMessages);
+
+    // ---------- send message
+    var lastSendAt = 0;
+    function canChat(){ return !!nick && nick.length >= 2; }
+
+    async function sendMessage(){
+      showErr(chatError, '');
+      if (!canChat()) {
+        showErr(chatError, 'اول نام خود را ثبت کن.');
+        return;
+      }
+
+      var text = (msgInput.value || '').trim();
+      if (!text) return;
+      if (text.length > 800) {
+        showErr(chatError, 'پیام خیلی طولانی است (حداکثر ۸۰۰ کاراکتر).');
+        return;
+      }
+
+      // anti spam
+      var now = Date.now();
+      if (now - lastSendAt < 650) return;
+      lastSendAt = now;
+
+      msgInput.value = '';
+      msgInput.focus();
+
+      // optional: include senderPoints snapshot to show crown in messages even if presence cache not loaded
+      var pres = presenceByDevice[deviceKey];
+      var senderPoints = pres ? (pres.points || 0) : 0;
+
+      var msgDoc = messagesRef.doc();
+      var batch = db.batch();
+
+      batch.set(msgDoc, {
+        text: text,
+        nick: nick,
+        deviceKey: deviceKey,
+        senderPoints: senderPoints,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      // update room metadata
+      batch.set(roomRef, {
+        name: ROOM_NAME,
+        lastMessage: text,
+        lastTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      try{
+        await batch.commit();
+      }catch(err){
+        console.error(err);
+        showErr(chatError, 'خطا در ارسال: ' + (err.code || '') + ' ' + (err.message || ''));
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    msgInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    refreshBtn.addEventListener('click', function(){
+      subscribeUsers();
+      subscribeLatestMessages();
+    });
+
+    // ---------- boot
+    if (nick) {
+      msgInput.disabled = false;
+      sendBtn.disabled = false;
+      ensureRoomDoc();
+      startPresence();
+    } else {
+      msgInput.disabled = true;
+      sendBtn.disabled = true;
+    }
+
+    subscribeUsers();
+    subscribeLatestMessages();
+    setStatus('در حال اتصال...', true);
+  </script>
+</body>
+</html>
