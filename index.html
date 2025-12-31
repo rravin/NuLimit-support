@@ -39,13 +39,7 @@
       flex-direction:column;
       gap:14px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:4px;
-    }
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;}
     .brand-left{display:flex;align-items:center;gap:10px;}
     .logo-circle{
       width:36px;height:36px;border-radius:18px;
@@ -60,7 +54,6 @@
     }
     .brand-text h1{font-size:16px;font-weight:600;}
     .brand-text span{font-size:11px;color:var(--text-muted);}
-
     .status-pill{
       font-size:11px;
       padding:6px 10px;
@@ -240,10 +233,10 @@
     <div>
       <div class="section-title">۱. ساخت آیدی گفتگو</div>
       <div class="id-box">
-        <input id="userIdInput" class="id-input" placeholder="مثلاً: nima_fx یا sara123" />
+        <input id="userIdInput" class="id-input" placeholder="مثلاً: nima_fx یا sara123" autocomplete="off" />
         <button id="saveIdBtn" class="id-btn" type="button">تأیید آیدی</button>
       </div>
-      <div class="hint" id="idHint">در حال اتصال...</div>
+      <div class="hint" id="idHint">آیدی را وارد کنید.</div>
       <div class="error" id="idError"></div>
     </div>
 
@@ -276,15 +269,14 @@
     </div>
   </div>
 
-  <!-- Firebase (Compat) - حتماً این 4 تا باید باشند -->
+  <!-- Firebase (Compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-installations-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
   <script>
-    (() => {
-      // --- UI refs ---
+    (function () {
+      // UI
       const userIdInput = document.getElementById('userIdInput');
       const saveIdBtn = document.getElementById('saveIdBtn');
       const idError = document.getElementById('idError');
@@ -294,21 +286,14 @@
       const msgInput = document.getElementById('messageInput');
       const sendBtn = document.getElementById('sendBtn');
 
-      function showError(msg) { idError.textContent = msg || ''; }
-      function setHint(msg) { idHint.textContent = msg || ''; }
+      function showError(msg){ idError.textContent = msg || ''; }
+      function setHint(msg){ idHint.textContent = msg || ''; }
 
-      // اگر هر خطای JS رخ بده، همینجا نمایش بده تا “هیچ اتفاقی نمی‌افته” نباشه
-      window.addEventListener('error', (e) => {
-        console.error('JS error:', e.error || e.message);
-        showError('خطای اسکریپت: ' + (e.message || 'نامشخص'));
-      });
-      window.addEventListener('unhandledrejection', (e) => {
-        console.error('Unhandled rejection:', e.reason);
-        const msg = (e.reason && (e.reason.message || e.reason.code)) ? (e.reason.message || e.reason.code) : String(e.reason || '');
-        showError('خطای برنامه: ' + (msg || 'نامشخص'));
-      });
+      // IMPORTANT FIX:
+      // ورودی آیدی همیشه قابل تایپ باشد. فقط وقتی اکانت قفل شد disable می‌کنیم.
+      userIdInput.disabled = false;
 
-      // --- Firebase init ---
+      // Firebase config
       const firebaseConfig = {
         apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
         authDomain: "nulimit-support.firebaseapp.com",
@@ -320,96 +305,54 @@
       };
 
       if (!window.firebase) {
-        showError('Firebase لود نشده. اینترنت/فیلترشکن را چک کن.');
+        showError('Firebase لود نشده. اینترنت/فیلترشکن را بررسی کنید.');
+        saveIdBtn.disabled = true;
         return;
       }
+      if (!firebase.apps || firebase.apps.length === 0) firebase.initializeApp(firebaseConfig);
 
-      if (!firebase.apps || firebase.apps.length === 0) {
-        firebase.initializeApp(firebaseConfig);
-      }
+      const db = firebase.firestore();
+      const auth = firebase.auth();
 
-      const db = firebase.firestore ? firebase.firestore() : null;
-      const auth = firebase.auth ? firebase.auth() : null;
-
-      let installations = null;
-      try { installations = firebase.installations ? firebase.installations() : null; } catch (_) { installations = null; }
-
-      if (!db) {
-        showError('Firestore لود نشده. firebase-firestore-compat.js باید باشد.');
-        return;
-      }
-      if (!auth) {
-        showError('Auth لود نشده. firebase-auth-compat.js باید باشد.');
-        return;
-      }
-
-      // --- State ---
+      // حالت‌ها
       let currentUserId = null;
       let unsubscribeMessages = null;
 
-      let authUid = null;
-      let deviceId = null;
-      let ready = false;
-
-      // --- Username rules ---
-      const ID_MIN = 3;
-      const ID_MAX = 20;
-      const ID_RE = new RegExp(`^[\\u0600-\\u06FFa-zA-Z0-9_]{${ID_MIN},${ID_MAX}}$`);
-
-      function normalizeUserId(raw) {
-        return (raw || '').trim().toLowerCase();
-      }
-
-      function setChatEnabled(enabled) {
-        msgInput.disabled = !enabled;
-        sendBtn.disabled = !enabled;
-      }
-
-      function getOrCreateLocalDeviceId() {
-        const key = 'nulimit_device_id_fallback';
+      // برای "هر گوشی/مرورگر فقط یک اکانت" (بدون وابستگی به Auth)
+      // (این روش 100% ضد دور زدن نیست ولی کار می‌کند و جلوی چند آیدی در همین دستگاه را می‌گیرد)
+      function getOrCreateDeviceId(){
+        const key = 'nulimit_device_id';
         let v = localStorage.getItem(key);
         if (v) return v;
-        v = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('dev_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16));
+        v = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('dev_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16));
         localStorage.setItem(key, v);
         return v;
       }
+      const deviceId = getOrCreateDeviceId();
 
-      async function getDeviceId() {
-        if (installations && installations.getId) {
-          try {
-            const id = await installations.getId();
-            if (id) return id;
-          } catch (e) {
-            console.warn('installations.getId failed, fallback', e);
-          }
-        }
-        return getOrCreateLocalDeviceId();
+      // قوانین آیدی
+      const ID_MIN = 3;
+      const ID_MAX = 20;
+      const ID_RE = new RegExp(`^[\\u0600-\\u06FFa-zA-Z0-9_]{${ID_MIN},${ID_MAX}}$`);
+      function normalizeUserId(raw){ return (raw || '').trim().toLowerCase(); }
+
+      // فعال/غیرفعال کردن چت
+      function setChatEnabled(enabled){
+        msgInput.disabled = !enabled;
+        sendBtn.disabled = !enabled;
       }
+      setChatEnabled(false);
 
-      function friendlyFirebaseError(err) {
-        const code = err && err.code ? String(err.code) : '';
-        const msg = err && err.message ? String(err.message) : '';
+      function activateChat(displayId){
+        currentUserId = normalizeUserId(displayId);
 
-        if (code === 'auth/operation-not-allowed') {
-          return 'Anonymous Auth خاموش است. Firebase Console > Authentication > Sign-in method > Anonymous را Enable کن.';
-        }
-        if (code === 'auth/network-request-failed') {
-          return 'مشکل شبکه/اینترنت. دوباره تلاش کن.';
-        }
-        if (msg.includes('Missing or insufficient permissions') || code === 'permission-denied') {
-          return 'Permission ندارید (Firestore Rules). فعلاً برای تست، Rules را موقتاً باز کن یا Rules درست را بذار.';
-        }
-        return (code || msg || 'خطای نامشخص');
-      }
-
-      function activateChat({ userIdKey, displayId }) {
-        currentUserId = userIdKey;
         localStorage.setItem('nulimit_user_id', displayId);
 
         showError('');
-        setHint('اکانت شما روی این دستگاه قفل شد.');
+        setHint('آیدی شما ثبت شد و روی این دستگاه قفل شد.');
         userIdLabel.textContent = 'آیدی شما: ' + displayId;
 
+        // از اینجا به بعد قفل می‌کنیم
         userIdInput.disabled = true;
         saveIdBtn.disabled = true;
 
@@ -417,81 +360,56 @@
         subscribeToMessages();
       }
 
-      async function bootstrap() {
-        ready = false;
-        setChatEnabled(false);
-        saveIdBtn.disabled = false;      // مهم: دکمه قابل کلیک باشد
-        userIdInput.disabled = false;
-        setHint('در حال اتصال...');
-
+      // تلاش برای لاگین ناشناس (اختیاری)
+      // اگر خطا auth/configuration-not-found داشت، مشکلی برای تایپ و ساخت آیدی ایجاد نمی‌کنیم.
+      (async () => {
         try {
-          try {
-            await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-          } catch (e) {
-            console.warn('setPersistence failed:', e);
-          }
-
-          if (!auth.currentUser) {
-            await auth.signInAnonymously();
-          }
-          authUid = auth.currentUser && auth.currentUser.uid;
-          if (!authUid) throw new Error('AUTH_UID_MISSING');
-
-          deviceId = await getDeviceId();
-          if (!deviceId) throw new Error('DEVICE_ID_MISSING');
-
-          ready = true;
-          setHint('یک آیدی انتخاب کن (هر دستگاه فقط یک بار).');
-
-          await loadExistingAccount();
-
-        } catch (err) {
-          console.error(err);
-          showError(friendlyFirebaseError(err));
-          setHint('اتصال کامل نشد.');
-          ready = false;
-        }
-      }
-
-      async function loadExistingAccount() {
-        const deviceRef = db.collection('devices').doc(deviceId);
-        const deviceSnap = await deviceRef.get();
-
-        if (deviceSnap.exists) {
-          const d = deviceSnap.data() || {};
-          if (d.ownerUid && d.ownerUid !== authUid) {
-            showError('این دستگاه قبلاً یک اکانت ساخته و اجازه ساخت اکانت جدید ندارد.');
-            userIdInput.disabled = true;
-            saveIdBtn.disabled = true;
-            setChatEnabled(false);
-            return;
-          }
-          if (d.username) {
-            activateChat({ userIdKey: d.username, displayId: d.displayId || d.username });
-            return;
+          await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          if (!auth.currentUser) await auth.signInAnonymously();
+          // اگر اینجا خطا دهد، مهم نیست (فقط برای امنیت بیشتر بود)
+        } catch (e) {
+          console.warn('Auth not ready:', e);
+          // این خطا را فقط نمایش می‌دهیم، ولی UI را قفل نمی‌کنیم
+          if (String(e && e.code || '') === 'auth/configuration-not-found') {
+            setHint('هشدار: Firebase Auth در پروژه تنظیم نشده (auth/configuration-not-found). با این حال ثبت آیدی کار می‌کند.');
           }
         }
+      })();
 
-        const saved = localStorage.getItem('nulimit_user_id');
-        if (saved) userIdInput.value = saved;
-      }
+      // اگر قبلاً روی همین دستگاه ثبت شده باشد، اتومات لود کن
+      (async () => {
+        try {
+          setHint('در حال بررسی اکانت این دستگاه...');
+          const deviceRef = db.collection('devices').doc(deviceId);
+          const snap = await deviceRef.get();
+          if (snap.exists) {
+            const d = snap.data() || {};
+            if (d.username) {
+              // روی همین دستگاه قفل شده
+              activateChat(d.displayId || d.username);
+              return;
+            }
+          }
+          // اگر نبود، اجازه تایپ و ثبت هست
+          setHint('آیدی را وارد کنید. (هر دستگاه فقط یک آیدی)');
+          const saved = localStorage.getItem('nulimit_user_id');
+          if (saved) userIdInput.value = saved;
+        } catch (e) {
+          console.error(e);
+          showError('خطا در اتصال به دیتابیس. Firestore Rules یا اینترنت را بررسی کنید.');
+          setHint('اتصال برقرار نشد.');
+        }
+      })();
 
-      // مهم: اینجا تضمین می‌کنیم کلیک حتماً یه خروجی بده
+      // ثبت آیدی
       saveIdBtn.addEventListener('click', async () => {
         showError('');
 
-        if (!ready) {
-          showError('هنوز به سرور وصل نشده. اگر خطا می‌بینی، همان را برطرف کن.');
-          return;
-        }
-        if (currentUserId) return;
-
         const raw = (userIdInput.value || '').trim();
-
         if (!raw) return showError('لطفاً یک آیدی وارد کنید.');
         if (raw.length < ID_MIN) return showError(`آیدی باید حداقل ${ID_MIN} کاراکتر باشد.`);
         if (raw.length > ID_MAX) return showError(`آیدی باید حداکثر ${ID_MAX} کاراکتر باشد.`);
-        if (!ID_RE.test(raw)) return showError('فقط حروف فارسی/انگلیسی، عدد و _ مجاز است.');
+        if (!ID_RE.test(raw)) return showError('فقط حروف فارسی/انگلیسی، عدد و _ مجاز است (بدون فاصله).');
 
         const displayId = raw;
         const userIdKey = normalizeUserId(raw);
@@ -501,96 +419,71 @@
         setHint('در حال ثبت آیدی...');
 
         try {
-          await claimAccount({ userIdKey, displayId });
-          activateChat({ userIdKey, displayId });
-        } catch (err) {
-          console.error(err);
-          showError(friendlyFirebaseError(err));
-          setHint('ثبت انجام نشد.');
-          saveIdBtn.disabled = false;
-          userIdInput.disabled = false;
-        }
-      });
+          const deviceRef = db.collection('devices').doc(deviceId);
+          const usernameRef = db.collection('usernames').doc(userIdKey);
+          const convRef = db.collection('conversations').doc(userIdKey);
 
-      async function claimAccount({ userIdKey, displayId }) {
-        const userRef = db.collection('users').doc(authUid);
-        const deviceRef = db.collection('devices').doc(deviceId);
-        const usernameRef = db.collection('usernames').doc(userIdKey);
-        const convRef = db.collection('conversations').doc(userIdKey);
+          await db.runTransaction(async (tx) => {
+            const [deviceSnap, usernameSnap] = await Promise.all([
+              tx.get(deviceRef),
+              tx.get(usernameRef),
+            ]);
 
-        await db.runTransaction(async (tx) => {
-          const [userSnap, deviceSnap, usernameSnap, convSnap] = await Promise.all([
-            tx.get(userRef),
-            tx.get(deviceRef),
-            tx.get(usernameRef),
-            tx.get(convRef),
-          ]);
-
-          if (userSnap.exists) {
-            const u = userSnap.data() || {};
-            if (u.username && u.username !== userIdKey) {
-              throw new Error('شما قبلاً اکانت ساخته‌اید و امکان تغییر آیدی ندارید.');
+            // هر دستگاه فقط یک آیدی
+            if (deviceSnap.exists) {
+              const d = deviceSnap.data() || {};
+              if (d.username && d.username !== userIdKey) {
+                throw new Error('این دستگاه قبلاً با آیدی دیگری ثبت شده و اجازه ساخت آیدی جدید ندارد.');
+              }
             }
-          }
 
-          if (deviceSnap.exists) {
-            const d = deviceSnap.data() || {};
-            if (d.ownerUid && d.ownerUid !== authUid) {
-              throw new Error('این دستگاه قبلاً یک اکانت ساخته و اجازه ساخت اکانت جدید ندارد.');
+            // آیدی باید یکتا باشد
+            if (usernameSnap.exists) {
+              throw new Error('این آیدی قبلاً ثبت شده است. یک آیدی دیگر انتخاب کنید.');
             }
-            if (d.username && d.username !== userIdKey) {
-              throw new Error('این دستگاه قبلاً با آیدی دیگری ثبت شده و اجازه آیدی جدید ندارد.');
-            }
-          }
 
-          if (usernameSnap.exists) {
-            const un = usernameSnap.data() || {};
-            if (un.ownerUid && un.ownerUid !== authUid) {
-              throw new Error('این آیدی قبلاً ثبت شده است.');
-            }
-          }
-
-          // فقط create (برای اینکه اگر Rules روی update بسته بود گیر نکنه)
-          if (!userSnap.exists) {
-            tx.set(userRef, {
-              username: userIdKey,
-              displayId,
-              deviceId,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          }
-          if (!deviceSnap.exists) {
+            // قفل کردن دستگاه
             tx.set(deviceRef, {
-              ownerUid: authUid,
+              deviceId,
               username: userIdKey,
               displayId,
               createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          }
-          if (!usernameSnap.exists) {
+            }, { merge: true });
+
+            // قفل کردن آیدی
             tx.set(usernameRef, {
-              ownerUid: authUid,
+              deviceId,
               displayId,
               createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-          }
-          if (!convSnap.exists) {
+
+            // ساخت گفتگو
             tx.set(convRef, {
               userId: userIdKey,
               displayId,
-              userUid: authUid,
               deviceId,
               createdAt: firebase.firestore.FieldValue.serverTimestamp(),
               lastMessage: 'شروع گفتگو توسط کاربر',
               lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
               unreadForAdmin: true,
               unreadForUser: false
-            });
-          }
-        });
-      }
+            }, { merge: true });
+          });
 
-      function subscribeToMessages() {
+          activateChat(displayId);
+
+        } catch (e) {
+          console.error(e);
+          showError(e && e.message ? e.message : 'خطا در ثبت آیدی.');
+          setHint('ثبت انجام نشد. دوباره تلاش کنید.');
+          // اجازه تایپ دوباره
+          userIdInput.disabled = false;
+          saveIdBtn.disabled = false;
+        }
+      });
+
+      // پیام‌ها
+      function subscribeToMessages(){
         if (!currentUserId) return;
         if (unsubscribeMessages) unsubscribeMessages();
 
@@ -629,14 +522,24 @@
           });
 
           messagesEl.scrollTop = messagesEl.scrollHeight + 200;
-        }, (err) => {
+        }, err => {
           console.error(err);
-          showError(friendlyFirebaseError(err));
+          showError('خطا در دریافت پیام‌ها. Firestore Rules را چک کنید.');
         });
       }
 
-      sendBtn.addEventListener('click', () => {
+      // ارسال پیام
+      sendBtn.addEventListener('click', sendMessage);
+      msgInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      function sendMessage(){
         if (!currentUserId) return showError('ابتدا آیدی را ثبت کنید.');
+
         const text = (msgInput.value || '').trim();
         if (!text) return;
 
@@ -644,14 +547,15 @@
         msgInput.focus();
 
         const convRef = db.collection('conversations').doc(currentUserId);
-        const msgDoc = convRef.collection('messages').doc();
+        const msgsRef = convRef.collection('messages');
 
         const batch = db.batch();
-        batch.set(msgDoc, {
+        batch.set(msgsRef.doc(), {
           text,
           sender: 'user',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
+
         batch.set(convRef, {
           lastMessage: text,
           lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -661,18 +565,9 @@
 
         batch.commit().catch(err => {
           console.error(err);
-          showError(friendlyFirebaseError(err));
+          showError('خطا در ارسال پیام. Firestore Rules یا اینترنت را بررسی کنید.');
         });
-      });
-
-      msgInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendBtn.click();
-        }
-      });
-
-      bootstrap();
+      }
     })();
   </script>
 </body>
