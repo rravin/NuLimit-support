@@ -45,14 +45,11 @@
       backdrop-filter:blur(18px);
       box-shadow:0 18px 50px rgba(15,23,42,0.85);
     }
-    .brand{
-      display:flex;align-items:center;gap:10px;
-    }
+    .brand{display:flex;align-items:center;gap:10px;}
     .logo{
       width:40px;height:40px;border-radius:999px;
       background:conic-gradient(from 210deg,#facc15,#fb7185,#a855f7,#38bdf8,#facc15);
-      padding:2px;
-      flex:0 0 auto;
+      padding:2px;flex:0 0 auto;
     }
     .logo > div{
       width:100%;height:100%;border-radius:inherit;
@@ -63,10 +60,7 @@
     .brand h1{font-size:16px;font-weight:650;line-height:1.1}
     .brand p{font-size:11px;color:var(--muted);margin-top:2px}
 
-    .actions{
-      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-      justify-content:flex-start;
-    }
+    .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-start;}
     .pill{
       border:1px solid var(--stroke);
       background:rgba(15,23,42,0.65);
@@ -108,9 +102,7 @@
       grid-template-columns: 1fr 1.2fr;
       gap:12px;
     }
-    @media (max-width:860px){
-      .grid{grid-template-columns:1fr}
-    }
+    @media (max-width:860px){ .grid{grid-template-columns:1fr} }
 
     .panel{
       background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(15,23,42,0.86));
@@ -131,28 +123,14 @@
       align-items:center;
       gap:8px;
     }
-    .panelHeader .title{
-      display:flex;flex-direction:column;gap:3px;
-    }
-    .panelHeader .title span:first-child{
-      font-size:13px;font-weight:650;
-    }
-    .panelHeader .title span:last-child{
-      font-size:11px;color:var(--muted);
-    }
-    .panelBody{
-      flex:1;
-      min-height:0;
-    }
+    .panelHeader .title{display:flex;flex-direction:column;gap:3px;}
+    .panelHeader .title span:first-child{font-size:13px;font-weight:650;}
+    .panelHeader .title span:last-child{font-size:11px;color:var(--muted);}
+    .panelBody{flex:1;min-height:0;}
 
-    /* Conversations list */
     .convList{
-      padding:10px;
-      overflow:auto;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
+      padding:10px;overflow:auto;height:100%;
+      display:flex;flex-direction:column;gap:8px;
     }
     .convItem{
       border:1px solid rgba(148,163,184,0.18);
@@ -170,82 +148,24 @@
       border-color:rgba(251,191,36,0.65);
       background:linear-gradient(135deg,rgba(99,102,241,0.18),rgba(251,191,36,0.14));
     }
-    .convMain{
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-    .convName{
-      font-size:13px;
-      font-weight:650;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .convLast{
-      font-size:11px;color:var(--muted);
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-      max-width:260px;
-    }
-    .convMeta{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:6px;
-      flex:0 0 auto;
-    }
+    .convMain{min-width:0;display:flex;flex-direction:column;gap:4px;}
+    .convName{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .convLast{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;}
+    .convMeta{display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex:0 0 auto;}
     .badgeNew{
-      font-size:11px;
-      padding:4px 10px;
-      border-radius:999px;
-      background:rgba(34,197,94,0.14);
-      color:#4ade80;
-      border:1px solid rgba(34,197,94,0.18);
+      font-size:11px;padding:4px 10px;border-radius:999px;
+      background:rgba(34,197,94,0.14);color:#4ade80;border:1px solid rgba(34,197,94,0.18);
     }
-    .metaTime{
-      font-size:11px;color:var(--muted);
-      direction:ltr;
-    }
+    .metaTime{font-size:11px;color:var(--muted);direction:ltr;}
 
-    /* Chat */
-    .chat{
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      min-height:0;
-    }
-    .chatHeadRight{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-    }
-    .chatInfo{
-      font-size:12px;color:var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width:320px;
-    }
+    .chat{height:100%;display:flex;flex-direction:column;min-height:0;}
+    .chatHeadRight{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-start;}
     .chatMessages{
-      flex:1;
-      min-height:0;
-      overflow:auto;
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
+      flex:1;min-height:0;overflow:auto;padding:12px;
+      display:flex;flex-direction:column;gap:8px;
       background:radial-gradient(circle at 0 0,rgba(56,189,248,0.05),rgba(15,23,42,0.92));
     }
-    .empty{
-      text-align:center;
-      color:var(--muted);
-      font-size:12px;
-      margin-top:34px;
-      line-height:1.7;
-    }
+    .empty{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.7;}
     .row{display:flex;width:100%;}
     .row.user{justify-content:flex-start;}
     .row.admin{justify-content:flex-end;}
@@ -259,22 +179,10 @@
       word-break:break-word;
       position:relative;
     }
-    .bubble.user{
-      background:rgba(30,64,175,0.9);
-      border-bottom-right-radius:5px;
-    }
-    .bubble.admin{
-      background:linear-gradient(135deg,#fbbf24,#f97316);
-      color:#111827;
-      border-bottom-left-radius:5px;
-    }
-    .t{
-      margin-top:2px;
-      font-size:10px;
-      opacity:.78;
-      direction:ltr;
-      text-align:left;
-    }
+    .bubble.user{background:rgba(30,64,175,0.9);border-bottom-right-radius:5px;}
+    .bubble.admin{background:linear-gradient(135deg,#fbbf24,#f97316);color:#111827;border-bottom-left-radius:5px;}
+    .t{margin-top:2px;font-size:10px;opacity:.78;direction:ltr;text-align:left;}
+
     .chatInput{
       border-top:1px solid var(--stroke);
       padding:10px;
@@ -313,9 +221,6 @@
       line-height:1.6;
       white-space:pre-wrap;
       word-break:break-word;
-    }
-    .ok{
-      color:#86efac;
     }
   </style>
 </head>
@@ -389,13 +294,34 @@
     </div>
   </div>
 
-  <!-- Firebase (Compat) -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
+    // ---- Debug: خطاهای JS را نشان بده
+    const adminErrorEl = document.getElementById('adminError');
+    function setError(msg) {
+      if (!msg) {
+        adminErrorEl.style.display = 'none';
+        adminErrorEl.textContent = '';
+        return;
+      }
+      adminErrorEl.style.display = 'block';
+      adminErrorEl.textContent = msg;
+    }
+    window.addEventListener('error', (e) => {
+      console.error(e);
+      setError('خطای اسکریپت: ' + (e.message || 'نامشخص'));
+    });
+    window.addEventListener('unhandledrejection', (e) => {
+      console.error(e.reason);
+      const m = (e.reason && (e.reason.message || e.reason.code)) ? (e.reason.message || e.reason.code) : String(e.reason || '');
+      setError('خطای برنامه: ' + (m || 'نامشخص'));
+    });
+
     // ==========================
-    // 1) Firebase Config
+    // Firebase Config
     // ==========================
     const firebaseConfig = {
       apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
@@ -407,11 +333,13 @@
       measurementId: "G-F8DN4LMKKG"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps || firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.firestore();
 
     // ==========================
-    // 2) UI refs
+    // UI refs
     // ==========================
     const convListEl = document.getElementById('convList');
     const convCountEl = document.getElementById('convCount');
@@ -427,18 +355,6 @@
     const sendBtn = document.getElementById('sendBtn');
     const deleteBtn = document.getElementById('deleteBtn');
     const markReadBtn = document.getElementById('markReadBtn');
-
-    const adminErrorEl = document.getElementById('adminError');
-
-    function setError(msg) {
-      if (!msg) {
-        adminErrorEl.style.display = 'none';
-        adminErrorEl.textContent = '';
-        return;
-      }
-      adminErrorEl.style.display = 'block';
-      adminErrorEl.textContent = msg;
-    }
 
     function setOnline(isOnline) {
       if (isOnline) {
@@ -464,22 +380,23 @@
       }
     }
 
-    function fmtDateTime(ts) {
-      try {
-        const d = ts && ts.toDate ? ts.toDate() : (ts instanceof Date ? ts : null);
-        if (!d) return '';
-        return d.toLocaleString('fa-IR', { hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit' });
-      } catch {
-        return '';
-      }
-    }
-
     function escapeText(s) {
-      return (s ?? '').toString();
+      return (s === null || s === undefined) ? '' : String(s);
     }
 
     // ==========================
-    // 3) State
+    // Beep for Android WebView
+    // ==========================
+    function notifyBeep() {
+      try {
+        if (window.Android && typeof window.Android.beep === 'function') {
+          window.Android.beep();
+        }
+      } catch (e) {}
+    }
+
+    // ==========================
+    // State
     // ==========================
     let selectedConvId = null;
     let selectedConvData = null;
@@ -487,25 +404,25 @@
     let unsubConvs = null;
     let unsubMsgs = null;
 
-    // برای فیلتر ساده سمت کلاینت
     let allConvsCache = [];
+    let convInitial = true;
+    const prevUnread = new Map();
 
     // ==========================
-    // 4) Conversations subscribe/render
+    // Conversations
     // ==========================
     function renderConversations(list) {
       convListEl.innerHTML = '';
 
+      convCountEl.textContent = String(list.length) + ' گفتگو';
+
       if (!list.length) {
         convListEl.innerHTML = '<div class="empty">گفتگویی یافت نشد.</div>';
-        convCountEl.textContent = '۰ گفتگو';
         return;
       }
 
-      convCountEl.textContent = `${list.length} گفتگو`;
-
-      list.forEach(item => {
-        const { id, data } = item;
+      list.forEach(({ id, data }) => {
+        data = data || {};
         const displayId = data.displayId || data.userId || id;
         const lastMessage = data.lastMessage || '';
         const lastTs = data.lastTimestamp || data.createdAt || null;
@@ -513,7 +430,6 @@
 
         const el = document.createElement('div');
         el.className = 'convItem' + (id === selectedConvId ? ' active' : '');
-        el.dataset.id = id;
 
         const left = document.createElement('div');
         left.className = 'convMain';
@@ -538,7 +454,6 @@
           b.textContent = 'جدید';
           right.appendChild(b);
         } else {
-          // جایگزین برای هم‌تراز شدن
           const spacer = document.createElement('div');
           spacer.style.height = '0px';
           right.appendChild(spacer);
@@ -559,15 +474,13 @@
 
     function applySearchAndRender() {
       const q = (searchInput.value || '').trim().toLowerCase();
-      if (!q) {
-        renderConversations(allConvsCache);
-        return;
-      }
+      if (!q) return renderConversations(allConvsCache);
 
       const filtered = allConvsCache.filter(({ id, data }) => {
-        const displayId = (data.displayId || data.userId || id || '').toString().toLowerCase();
-        const lastMessage = (data.lastMessage || '').toString().toLowerCase();
-        return displayId.includes(q) || lastMessage.includes(q) || id.toLowerCase().includes(q);
+        data = data || {};
+        const displayId = String(data.displayId || data.userId || id || '').toLowerCase();
+        const lastMessage = String(data.lastMessage || '').toLowerCase();
+        return displayId.includes(q) || lastMessage.includes(q) || String(id).toLowerCase().includes(q);
       });
 
       renderConversations(filtered);
@@ -581,28 +494,40 @@
 
       const ref = db.collection('conversations').orderBy('lastTimestamp', 'desc');
 
-      unsubConvs = ref.onSnapshot(snap => {
+      unsubConvs = ref.onSnapshot((snap) => {
         setOnline(true);
 
         const list = [];
         snap.forEach(doc => list.push({ id: doc.id, data: doc.data() || {} }));
         allConvsCache = list;
 
+        // بوق وقتی unreadForAdmin از false به true تبدیل شد (یعنی پیام جدید آمد)
+        if (!convInitial) {
+          list.forEach(({ id, data }) => {
+            const unread = !!(data && data.unreadForAdmin);
+            const prev = prevUnread.get(id) || false;
+            if (!prev && unread) notifyBeep();
+          });
+        }
+        convInitial = false;
+
+        prevUnread.clear();
+        list.forEach(({ id, data }) => prevUnread.set(id, !!(data && data.unreadForAdmin)));
+
         applySearchAndRender();
 
-        // اگر گفتگو انتخاب شده و هنوز وجود دارد، label را آپدیت کن
+        // آپدیت انتخاب فعلی
         if (selectedConvId) {
           const found = list.find(x => x.id === selectedConvId);
           if (found) {
-            selectedConvData = found.data;
-            selectedLabel.textContent = 'انتخاب شده: ' + (found.data.displayId || found.data.userId || selectedConvId);
+            selectedConvData = found.data || {};
+            selectedLabel.textContent = 'انتخاب شده: ' + (selectedConvData.displayId || selectedConvData.userId || selectedConvId);
           } else {
-            // حذف شده
             clearSelection();
           }
         }
 
-      }, err => {
+      }, (err) => {
         console.error(err);
         setOnline(false);
         setError('خطا در دریافت گفتگوها:\n' + (err.code || '') + ' ' + (err.message || ''));
@@ -610,7 +535,7 @@
     }
 
     // ==========================
-    // 5) Select conversation + messages
+    // Select + Messages
     // ==========================
     function clearSelection() {
       selectedConvId = null;
@@ -628,7 +553,6 @@
 
       if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
 
-      // رندر لیست برای برداشتن active
       applySearchAndRender();
     }
 
@@ -638,564 +562,160 @@
       selectedConvData = data || {};
 
       const displayId = selectedConvData.displayId || selectedConvData.userId || convId;
+      const dev = selectedConvData.deviceKey || selectedConvData.deviceId || '';
 
       selectedLabel.textContent = 'انتخاب شده: ' + displayId;
-      chatSub.textContent = 'گفتگو با: ' + displayId + ' — ' + (selectedConvData.deviceId ? ('device: ' + selectedConvData.deviceId) : '');
+      chatSub.textContent = 'گفتگو با: ' + displayId + (dev ? (' — device: ' + dev) : '');
+
       deleteBtn.disabled = false;
       markReadBtn.disabled = false;
-
       replyInput.disabled = false;
       sendBtn.disabled = false;
-      replyInput.focus();
 
-      // رندر لیست برای active
       applySearchAndRender();
 
-      // mark as read for admin (best effort)
+      // mark read (best effort)
       try {
         await db.collection('conversations').doc(convId).set({ unreadForAdmin: false }, { merge: true });
       } catch (e) {
-        console.warn('mark read failed:', e);
+        console.warn(e);
       }
-      
-function notifyBeep() {
-  try {
-    if (window.Android && typeof window.Android.beep === 'function') {
-      window.Android.beep(); // صدا از اپ (WebView)
-      return;
-    }
-  } catch (e) {}
-
-  // اگر توی مرورگر باز شد (بدون WebView)، هیچی یا می‌تونی fallback بذاری
-}
 
       subscribeMessages(convId);
     }
 
     function subscribeMessages(convId) {
-  if (unsubMsgs) unsubMsgs();
+      if (unsubMsgs) unsubMsgs();
 
-  chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
+      chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
 
-  const msgsRef = db
-    .collection('conversations').doc(convId)
-    .collection('messages')
-    .orderBy('createdAt', 'asc');
+      const msgsRef = db
+        .collection('conversations').doc(convId)
+        .collection('messages')
+        .orderBy('createdAt', 'asc');
 
-  // مهم: برای اینکه روی لود اولیه بوق نزنه
-  let initial = true;
+      let initial = true;
 
-  unsubMsgs = msgsRef.onSnapshot(snap => {
-    // فقط بعد از لود اولیه، روی پیام جدید بوق بزن
-    if (!initial) {
-      snap.docChanges().forEach(ch => {
-        if (ch.type === 'added') {
-          const m = ch.doc.data() || {};
-          if (m.sender === 'user') {
-            notifyBeep();
-          }
+      unsubMsgs = msgsRef.onSnapshot((snap) => {
+        // بوق فقط برای پیام جدید user (بعد از لود اولیه)
+        if (!initial) {
+          snap.docChanges().forEach((ch) => {
+            if (ch.type === 'added') {
+              const m = ch.doc.data() || {};
+              if (m.sender === 'user') notifyBeep();
+            }
+          });
         }
+        initial = false;
+
+        chatMessagesEl.innerHTML = '';
+        if (snap.empty) {
+          chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی در این گفتگو وجود ندارد.</div>';
+          return;
+        }
+
+        snap.forEach((doc) => {
+          const m = doc.data() || {};
+
+          const row = document.createElement('div');
+          row.className = 'row ' + (m.sender === 'admin' ? 'admin' : 'user');
+
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
+          bubble.textContent = escapeText(m.text);
+
+          const t = document.createElement('div');
+          t.className = 't';
+          t.textContent = fmtTime(m.createdAt);
+
+          bubble.appendChild(t);
+          row.appendChild(bubble);
+          chatMessagesEl.appendChild(row);
+        });
+
+        chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
+
+      }, (err) => {
+        console.error(err);
+        setError('خطا در دریافت پیام‌ها:\n' + (err.code || '') + ' ' + (err.message || ''));
       });
     }
-    initial = false;
-
-    // --- رندر قبلی خودت ---
-    chatMessagesEl.innerHTML = '';
-    if (snap.empty) {
-      chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی در این گفتگو وجود ندارد.</div>';
-      return;
-    }
-
-    snap.forEach(doc => {
-      const m = doc.data() || {};
-      const row = document.createElement('div');
-      row.className = 'row ' + (m.sender === 'admin' ? 'admin' : 'user');
-
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
-      bubble.textContent = escapeText(m.text);
-
-      const t = document.createElement('div');
-      t.className = 't';
-      t.textContent = fmtTime(m.createdAt);
-
-      bubble.appendChild(t);
-      row.appendChild(bubble);
-      chatMessagesEl.appendChild(row);
-    });
-
-    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
-  }, err => {
-    console.error(err);
-    setError('خطا در دریافت پیام‌ها:\n' + (err.code || '') + ' ' + (err.message || ''));
-  });
-}
 
     // ==========================
-    // 6) Send admin reply
+    // Send admin reply
     // ==========================
     async function sendAdminMessage() {
       setError('');
       if (!selectedConvId) return;
 
-<script>
-  // ==========================
-  // 1) Firebase Config
-  // ==========================
-  const firebaseConfig = {
-    apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
-    authDomain: "nulimit-support.firebaseapp.com",
-    projectId: "nulimit-support",
-    storageBucket: "nulimit-support.firebasestorage.app",
-    messagingSenderId: "325154539382",
-    appId: "1:325154539382:web:06d02a36452866c15f9c57",
-    measurementId: "G-F8DN4LMKKG"
-  };
+      const text = (replyInput.value || '').trim();
+      if (!text) return;
 
-  if (!firebase.apps || firebase.apps.length === 0) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  const db = firebase.firestore();
+      sendBtn.disabled = true;
 
-  // ==========================
-  // 2) UI refs
-  // ==========================
-  const convListEl = document.getElementById('convList');
-  const convCountEl = document.getElementById('convCount');
-  const selectedLabel = document.getElementById('selectedLabel');
-  const chatSub = document.getElementById('chatSub');
-  const chatMessagesEl = document.getElementById('chatMessages');
+      const convRef = db.collection('conversations').doc(selectedConvId);
+      const msgsRef = convRef.collection('messages');
 
-  const searchInput = document.getElementById('searchInput');
-  const refreshBtn = document.getElementById('refreshBtn');
-  const statusPill = document.getElementById('statusPill');
-
-  const replyInput = document.getElementById('replyInput');
-  const sendBtn = document.getElementById('sendBtn');
-  const deleteBtn = document.getElementById('deleteBtn');
-  const markReadBtn = document.getElementById('markReadBtn');
-
-  const adminErrorEl = document.getElementById('adminError');
-
-  function setError(msg) {
-    if (!msg) {
-      adminErrorEl.style.display = 'none';
-      adminErrorEl.textContent = '';
-      return;
-    }
-    adminErrorEl.style.display = 'block';
-    adminErrorEl.textContent = msg;
-  }
-
-  function setOnline(isOnline) {
-    if (isOnline) {
-      statusPill.textContent = 'آنلاین';
-      statusPill.style.borderColor = 'rgba(34,197,94,0.25)';
-      statusPill.style.color = '#86efac';
-      statusPill.style.background = 'rgba(34,197,94,0.10)';
-    } else {
-      statusPill.textContent = 'آفلاین';
-      statusPill.style.borderColor = 'rgba(239,68,68,0.25)';
-      statusPill.style.color = '#fecaca';
-      statusPill.style.background = 'rgba(239,68,68,0.10)';
-    }
-  }
-
-  function fmtTime(ts) {
-    try {
-      const d = ts && ts.toDate ? ts.toDate() : (ts instanceof Date ? ts : null);
-      if (!d) return '';
-      return d.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-    } catch {
-      return '';
-    }
-  }
-
-  function escapeText(s) {
-    return (s === null || s === undefined) ? '' : String(s);
-  }
-
-  // ==========================
-  // Beep (برای WebView اپ)
-  // ==========================
-  function notifyBeep() {
-    try {
-      if (window.Android && typeof window.Android.beep === 'function') {
-        window.Android.beep();
-      }
-    } catch (e) {}
-  }
-
-  // ==========================
-  // 3) State
-  // ==========================
-  let selectedConvId = null;
-  let selectedConvData = null;
-
-  let unsubConvs = null;
-  let unsubMsgs = null;
-
-  let allConvsCache = [];
-
-  // ==========================
-  // 4) Conversations subscribe/render
-  // ==========================
-  function renderConversations(list) {
-    convListEl.innerHTML = '';
-
-    if (!list.length) {
-      convListEl.innerHTML = '<div class="empty">گفتگویی یافت نشد.</div>';
-      convCountEl.textContent = '۰ گفتگو';
-      return;
-    }
-
-    convCountEl.textContent = `${list.length} گفتگو`;
-
-    list.forEach(item => {
-      const id = item.id;
-      const data = item.data || {};
-
-      const displayId = data.displayId || data.userId || id;
-      const lastMessage = data.lastMessage || '';
-      const lastTs = data.lastTimestamp || data.createdAt || null;
-      const unread = !!data.unreadForAdmin;
-
-      const el = document.createElement('div');
-      el.className = 'convItem' + (id === selectedConvId ? ' active' : '');
-      el.dataset.id = id;
-
-      const left = document.createElement('div');
-      left.className = 'convMain';
-
-      const name = document.createElement('div');
-      name.className = 'convName';
-      name.textContent = displayId;
-
-      const last = document.createElement('div');
-      last.className = 'convLast';
-      last.textContent = lastMessage;
-
-      left.appendChild(name);
-      left.appendChild(last);
-
-      const right = document.createElement('div');
-      right.className = 'convMeta';
-
-      if (unread) {
-        const b = document.createElement('div');
-        b.className = 'badgeNew';
-        b.textContent = 'جدید';
-        right.appendChild(b);
-      } else {
-        const spacer = document.createElement('div');
-        spacer.style.height = '0px';
-        right.appendChild(spacer);
-      }
-
-      const t = document.createElement('div');
-      t.className = 'metaTime';
-      t.textContent = fmtTime(lastTs);
-      right.appendChild(t);
-
-      el.appendChild(left);
-      el.appendChild(right);
-
-      el.addEventListener('click', () => selectConversation(id, data));
-      convListEl.appendChild(el);
-    });
-  }
-
-  function applySearchAndRender() {
-    const q = (searchInput.value || '').trim().toLowerCase();
-    if (!q) {
-      renderConversations(allConvsCache);
-      return;
-    }
-
-    const filtered = allConvsCache.filter(({ id, data }) => {
-      const d = data || {};
-      const displayId = (d.displayId || d.userId || id || '').toString().toLowerCase();
-      const lastMessage = (d.lastMessage || '').toString().toLowerCase();
-      return displayId.includes(q) || lastMessage.includes(q) || id.toLowerCase().includes(q);
-    });
-
-    renderConversations(filtered);
-  }
-
-  function subscribeConversations() {
-    if (unsubConvs) unsubConvs();
-
-    convListEl.innerHTML = '<div class="empty">در حال دریافت گفتگوها...</div>';
-    setError('');
-
-    const ref = db.collection('conversations').orderBy('lastTimestamp', 'desc');
-
-    unsubConvs = ref.onSnapshot(snap => {
-      setOnline(true);
-
-      const list = [];
-      snap.forEach(doc => list.push({ id: doc.id, data: doc.data() || {} }));
-      allConvsCache = list;
-
-      applySearchAndRender();
-
-      if (selectedConvId) {
-        const found = list.find(x => x.id === selectedConvId);
-        if (found) {
-          selectedConvData = found.data;
-          selectedLabel.textContent = 'انتخاب شده: ' + (found.data.displayId || found.data.userId || selectedConvId);
-        } else {
-          clearSelection();
-        }
-      }
-    }, err => {
-      console.error(err);
-      setOnline(false);
-      setError('خطا در دریافت گفتگوها:\n' + (err.code || '') + ' ' + (err.message || ''));
-    });
-  }
-
-  // ==========================
-  // 5) Select conversation + messages
-  // ==========================
-  function clearSelection() {
-    selectedConvId = null;
-    selectedConvData = null;
-
-    selectedLabel.textContent = 'هیچ گفتگویی انتخاب نشده';
-    chatSub.textContent = 'روی یک گفتگو بزنید تا پیام‌ها نمایش داده شود.';
-    chatMessagesEl.innerHTML = '<div class="empty">هنوز گفتگویی انتخاب نشده است.</div>';
-
-    replyInput.value = '';
-    replyInput.disabled = true;
-    sendBtn.disabled = true;
-    deleteBtn.disabled = true;
-    markReadBtn.disabled = true;
-
-    if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
-
-    applySearchAndRender();
-  }
-
-  async function selectConversation(convId, data) {
-    setError('');
-    selectedConvId = convId;
-    selectedConvData = data || {};
-
-    const displayId = selectedConvData.displayId || selectedConvData.userId || convId;
-    const dev = selectedConvData.deviceKey || selectedConvData.deviceId || '';
-
-    selectedLabel.textContent = 'انتخاب شده: ' + displayId;
-    chatSub.textContent = 'گفتگو با: ' + displayId + (dev ? (' — device: ' + dev) : '');
-
-    deleteBtn.disabled = false;
-    markReadBtn.disabled = false;
-
-    replyInput.disabled = false;
-    sendBtn.disabled = false;
-    replyInput.focus();
-
-    applySearchAndRender();
-
-    try {
-      await db.collection('conversations').doc(convId).set({ unreadForAdmin: false }, { merge: true });
-    } catch (e) {
-      console.warn('mark read failed:', e);
-    }
-
-    subscribeMessages(convId);
-  }
-
-  function subscribeMessages(convId) {
-    if (unsubMsgs) unsubMsgs();
-
-    chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
-
-    const msgsRef = db
-      .collection('conversations').doc(convId)
-      .collection('messages')
-      .orderBy('createdAt', 'asc');
-
-    let initial = true;
-
-    unsubMsgs = msgsRef.onSnapshot(snap => {
-      // بوق فقط بعد از لود اولیه و فقط وقتی پیام user اضافه شد
-      if (!initial) {
-        snap.docChanges().forEach(ch => {
-          if (ch.type === 'added') {
-            const m = ch.doc.data() || {};
-            if (m.sender === 'user') notifyBeep();
-          }
-        });
-      }
-      initial = false;
-
-      chatMessagesEl.innerHTML = '';
-      if (snap.empty) {
-        chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی در این گفتگو وجود ندارد.</div>';
-        return;
-      }
-
-      snap.forEach(doc => {
-        const m = doc.data() || {};
-        const row = document.createElement('div');
-        row.className = 'row ' + (m.sender === 'admin' ? 'admin' : 'user');
-
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
-        bubble.textContent = escapeText(m.text);
-
-        const t = document.createElement('div');
-        t.className = 't';
-        t.textContent = fmtTime(m.createdAt);
-
-        bubble.appendChild(t);
-        row.appendChild(bubble);
-        chatMessagesEl.appendChild(row);
+      const batch = db.batch();
+      batch.set(msgsRef.doc(), {
+        text,
+        sender: 'admin',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-
-      chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
-    }, err => {
-      console.error(err);
-      setError('خطا در دریافت پیام‌ها:\n' + (err.code || '') + ' ' + (err.message || ''));
-    });
-  }
-
-  // ==========================
-  // 6) Send admin reply
-  // ==========================
-  async function sendAdminMessage() {
-    setError('');
-    if (!selectedConvId) return;
-
-    const text = (replyInput.value || '').trim();
-    if (!text) return;
-
-    sendBtn.disabled = true;
-
-    const convRef = db.collection('conversations').doc(selectedConvId);
-    const msgsRef = convRef.collection('messages');
-
-    const batch = db.batch();
-    batch.set(msgsRef.doc(), {
-      text,
-      sender: 'admin',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    batch.set(convRef, {
-      lastMessage: text,
-      lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      unreadForUser: true,
-      unreadForAdmin: false
-    }, { merge: true });
-
-    try {
-      await batch.commit();
-      replyInput.value = '';
-      replyInput.focus();
-    } catch (e) {
-      console.error(e);
-      setError('ارسال انجام نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
-    } finally {
-      sendBtn.disabled = false;
-    }
-  }
-
-  sendBtn.addEventListener('click', sendAdminMessage);
-  replyInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendAdminMessage();
-    }
-  });
-
-  // ==========================
-  // 7) Mark read
-  // ==========================
-  markReadBtn.addEventListener('click', async () => {
-    setError('');
-    if (!selectedConvId) return;
-
-    try {
-      await db.collection('conversations').doc(selectedConvId).set({
+      batch.set(convRef, {
+        lastMessage: text,
+        lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        unreadForUser: true,
         unreadForAdmin: false
       }, { merge: true });
-    } catch (e) {
-      console.error(e);
-      setError('خوانده‌شدن ثبت نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
-    }
-  });
 
-  // ==========================
-  // 8) Delete conversation (deep delete)
-  // ==========================
-  async function deleteConversationDeep(convId) {
-    if (!convId) return;
-
-    const name = (selectedConvData && (selectedConvData.displayId || selectedConvData.userId))
-      ? (selectedConvData.displayId || selectedConvData.userId)
-      : convId;
-
-    const ok = confirm(`گفتگو "${name}" حذف شود؟\n(تمام پیام‌ها پاک می‌شود)`);
-    if (!ok) return;
-
-    setError('');
-    deleteBtn.disabled = true;
-    markReadBtn.disabled = true;
-    sendBtn.disabled = true;
-    replyInput.disabled = true;
-
-    if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
-
-    const convRef = db.collection('conversations').doc(convId);
-    const msgsCol = convRef.collection('messages');
-
-    try {
-      while (true) {
-        const snap = await msgsCol
-          .orderBy(firebase.firestore.FieldPath.documentId())
-          .limit(450)
-          .get();
-
-        if (snap.empty) break;
-
-        const batch = db.batch();
-        snap.docs.forEach(d => batch.delete(d.ref));
+      try {
         await batch.commit();
+        replyInput.value = '';
+        replyInput.focus();
+      } catch (e) {
+        console.error(e);
+        setError('ارسال انجام نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
+      } finally {
+        sendBtn.disabled = false;
       }
-
-      await convRef.delete();
-
-      clearSelection();
-      setError('گفتگو حذف شد.');
-
-    } catch (e) {
-      console.error(e);
-      setError('حذف انجام نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
-      deleteBtn.disabled = false;
-      markReadBtn.disabled = false;
-      replyInput.disabled = false;
-      sendBtn.disabled = false;
-      subscribeMessages(convId);
     }
-  }
 
-  deleteBtn.addEventListener('click', () => deleteConversationDeep(selectedConvId));
+    sendBtn.addEventListener('click', sendAdminMessage);
+    replyInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendAdminMessage();
+      }
+    });
 
-  // ==========================
-  // 9) Search + refresh
-  // ==========================
-  searchInput.addEventListener('input', applySearchAndRender);
-  refreshBtn.addEventListener('click', () => {
-    setError('');
-    subscribeConversations();
-    if (selectedConvId) subscribeMessages(selectedConvId);
-  });
+    // ==========================
+    // Mark read
+    // ==========================
+    markReadBtn.addEventListener('click', async () => {
+      setError('');
+      if (!selectedConvId) return;
+      try {
+        await db.collection('conversations').doc(selectedConvId).set({ unreadForAdmin: false }, { merge: true });
+      } catch (e) {
+        console.error(e);
+        setError('خوانده‌شدن ثبت نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
+      }
+    });
 
-  // ==========================
-  // 10) Boot
-  // ==========================
-  subscribeConversations();
-</script>
-</body>
-</html>
+    // ==========================
+    // Delete conversation (deep delete)
+    // ==========================
+    async function deleteConversationDeep(convId) {
+      if (!convId) return;
+
+      const name = (selectedConvData && (selectedConvData.displayId || selectedConvData.userId))
+        ? (selectedConvData.displayId || selectedConvData.userId)
+        : convId;
+
+      const ok = confirm(`گفتگو "${name}" حذف شود؟\n(تمام پیام‌ها پاک می‌شود)`);
+      if (!ok) return;
+
+      setError('');
+      deleteBtn.disabled = true;
+      markReadBtn.disabled 
