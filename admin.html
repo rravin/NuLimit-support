@@ -657,52 +657,79 @@
       } catch (e) {
         console.warn('mark read failed:', e);
       }
+      
+function notifyBeep() {
+  try {
+    if (window.Android && typeof window.Android.beep === 'function') {
+      window.Android.beep(); // صدا از اپ (WebView)
+      return;
+    }
+  } catch (e) {}
+
+  // اگر توی مرورگر باز شد (بدون WebView)، هیچی یا می‌تونی fallback بذاری
+}
 
       subscribeMessages(convId);
     }
 
     function subscribeMessages(convId) {
-      if (unsubMsgs) unsubMsgs();
+  if (unsubMsgs) unsubMsgs();
 
-      chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
+  chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
 
-      const msgsRef = db
-        .collection('conversations').doc(convId)
-        .collection('messages')
-        .orderBy('createdAt', 'asc');
+  const msgsRef = db
+    .collection('conversations').doc(convId)
+    .collection('messages')
+    .orderBy('createdAt', 'asc');
 
-      unsubMsgs = msgsRef.onSnapshot(snap => {
-        chatMessagesEl.innerHTML = '';
-        if (snap.empty) {
-          chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی در این گفتگو وجود ندارد.</div>';
-          return;
+  // مهم: برای اینکه روی لود اولیه بوق نزنه
+  let initial = true;
+
+  unsubMsgs = msgsRef.onSnapshot(snap => {
+    // فقط بعد از لود اولیه، روی پیام جدید بوق بزن
+    if (!initial) {
+      snap.docChanges().forEach(ch => {
+        if (ch.type === 'added') {
+          const m = ch.doc.data() || {};
+          if (m.sender === 'user') {
+            notifyBeep();
+          }
         }
-
-        snap.forEach(doc => {
-          const m = doc.data() || {};
-          const row = document.createElement('div');
-          row.className = 'row ' + (m.sender === 'admin' ? 'admin' : 'user');
-
-          const bubble = document.createElement('div');
-          bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
-          bubble.textContent = escapeText(m.text);
-
-          const t = document.createElement('div');
-          t.className = 't';
-          t.textContent = fmtTime(m.createdAt);
-
-          bubble.appendChild(t);
-          row.appendChild(bubble);
-          chatMessagesEl.appendChild(row);
-        });
-
-        chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
-
-      }, err => {
-        console.error(err);
-        setError('خطا در دریافت پیام‌ها:\n' + (err.code || '') + ' ' + (err.message || ''));
       });
     }
+    initial = false;
+
+    // --- رندر قبلی خودت ---
+    chatMessagesEl.innerHTML = '';
+    if (snap.empty) {
+      chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی در این گفتگو وجود ندارد.</div>';
+      return;
+    }
+
+    snap.forEach(doc => {
+      const m = doc.data() || {};
+      const row = document.createElement('div');
+      row.className = 'row ' + (m.sender === 'admin' ? 'admin' : 'user');
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
+      bubble.textContent = escapeText(m.text);
+
+      const t = document.createElement('div');
+      t.className = 't';
+      t.textContent = fmtTime(m.createdAt);
+
+      bubble.appendChild(t);
+      row.appendChild(bubble);
+      chatMessagesEl.appendChild(row);
+    });
+
+    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
+  }, err => {
+    console.error(err);
+    setError('خطا در دریافت پیام‌ها:\n' + (err.code || '') + ' ' + (err.message || ''));
+  });
+}
 
     // ==========================
     // 6) Send admin reply
