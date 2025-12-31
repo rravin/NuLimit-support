@@ -718,4 +718,59 @@
 
       setError('');
       deleteBtn.disabled = true;
-      markReadBtn.disabled 
+      markReadBtn.disabled = true;
+      sendBtn.disabled = true;
+      replyInput.disabled = true;
+
+      if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
+
+      const convRef = db.collection('conversations').doc(convId);
+      const msgsCol = convRef.collection('messages');
+
+      try {
+        while (true) {
+          const snap = await msgsCol
+            .orderBy(firebase.firestore.FieldPath.documentId())
+            .limit(450)
+            .get();
+
+          if (snap.empty) break;
+
+          const batch = db.batch();
+          snap.docs.forEach(d => batch.delete(d.ref));
+          await batch.commit();
+        }
+
+        await convRef.delete();
+
+        clearSelection();
+        setError('گفتگو حذف شد.');
+
+      } catch (e) {
+        console.error(e);
+        setError('حذف انجام نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
+        deleteBtn.disabled = false;
+        markReadBtn.disabled = false;
+        replyInput.disabled = false;
+        sendBtn.disabled = false;
+        subscribeMessages(convId);
+      }
+    }
+
+    deleteBtn.addEventListener('click', () => deleteConversationDeep(selectedConvId));
+
+    // ==========================
+    // Search + Refresh
+    // ==========================
+    searchInput.addEventListener('input', applySearchAndRender);
+    refreshBtn.addEventListener('click', () => {
+      setError('');
+      subscribeConversations();
+      if (selectedConvId) subscribeMessages(selectedConvId);
+    });
+
+    // Boot
+    subscribeConversations();
+  </script>
+</body>
+</html>
