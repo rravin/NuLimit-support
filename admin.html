@@ -2,459 +2,401 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>پنل مدیریت - NuLimit Support</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NuLimit مدیریت - پنل ادمین</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --bg: #020617;
-      --card: #020617;
-      --border: rgba(148, 163, 184, 0.45);
-      --accent: #22c55e;
-      --accent2: #6366f1;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --danger1: #ef4444;
-      --danger2: #b91c1c;
-      --info1: #38bdf8;
-      --info2: #6366f1;
+    :root{
+      --bg:#050814;
+      --card:rgba(10,12,30,0.86);
+      --stroke:rgba(148,163,184,0.22);
+      --text:#f9fafb;
+      --muted:#a1a5c3;
+      --accent:#fbbf24;
+      --accent2:#6366f1;
+      --danger:#ef4444;
+      --ok:#22c55e;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Vazirmatn',system-ui,-apple-system,sans-serif;
+      background:radial-gradient(circle at top, #192045 0, #050814 55%, #02030a 100%);
+      color:var(--text);
+      min-height:100vh;
+      padding:14px;
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .topbar{
+      background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.85));
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      padding:14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      backdrop-filter:blur(18px);
+      box-shadow:0 18px 50px rgba(15,23,42,0.85);
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;
+    }
+    .logo{
+      width:40px;height:40px;border-radius:999px;
+      background:conic-gradient(from 210deg,#facc15,#fb7185,#a855f7,#38bdf8,#facc15);
+      padding:2px;
+      flex:0 0 auto;
+    }
+    .logo > div{
+      width:100%;height:100%;border-radius:inherit;
+      background:radial-gradient(circle at 20% 0,#1f2937,#020617);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;
+    }
+    .brand h1{font-size:16px;font-weight:650;line-height:1.1}
+    .brand p{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .actions{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+      justify-content:flex-start;
+    }
+    .pill{
+      border:1px solid var(--stroke);
+      background:rgba(15,23,42,0.65);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      outline:none;
+    }
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:12px;
+      font-weight:650;
+      cursor:pointer;
+      color:#0b1220;
+      background:linear-gradient(135deg,#fbbf24,#f97316);
+      box-shadow:0 12px 28px rgba(251,191,36,0.22);
+      transition:transform .12s, filter .12s, box-shadow .12s;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 16px 35px rgba(251,191,36,0.28)}
+    .btn:active{transform:translateY(0)}
+    .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;filter:none;box-shadow:none}
+    .btn2{
+      background:linear-gradient(135deg,#4f46e5,#a855f7);
+      color:#f9fafb;
+      box-shadow:0 12px 28px rgba(79,70,229,0.22);
+    }
+    .btnDanger{
+      background:linear-gradient(135deg,#ef4444,#b91c1c);
+      color:#fff;
+      box-shadow:0 12px 28px rgba(239,68,68,0.18);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-
-    body {
-      font-family: "Vazirmatn", system-ui, sans-serif;
-      background: radial-gradient(circle at top, #1f2937, #020617 55%, #000 100%);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-      padding: 8px;
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap:12px;
+    }
+    @media (max-width:860px){
+      .grid{grid-template-columns:1fr}
     }
 
-    .shell {
-      flex: 1;
-      max-width: 1100px;
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.98));
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.95);
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      height: 100%;
-      overflow: hidden;
+    .panel{
+      background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(15,23,42,0.86));
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 18px 50px rgba(15,23,42,0.75);
+      backdrop-filter:blur(18px);
+      min-height:520px;
+      display:flex;
+      flex-direction:column;
+    }
+    .panelHeader{
+      padding:12px 12px;
+      border-bottom:1px solid var(--stroke);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .panelHeader .title{
+      display:flex;flex-direction:column;gap:3px;
+    }
+    .panelHeader .title span:first-child{
+      font-size:13px;font-weight:650;
+    }
+    .panelHeader .title span:last-child{
+      font-size:11px;color:var(--muted);
+    }
+    .panelBody{
+      flex:1;
+      min-height:0;
     }
 
-    .topbar {
-      padding: 10px 14px 8px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 1));
-      flex-shrink: 0;
+    /* Conversations list */
+    .convList{
+      padding:10px;
+      overflow:auto;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .convItem{
+      border:1px solid rgba(148,163,184,0.18);
+      background:rgba(2,6,23,0.45);
+      border-radius:14px;
+      padding:10px 10px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      cursor:pointer;
+      transition:transform .08s, border-color .12s, background .12s;
+    }
+    .convItem:hover{transform:translateY(-1px);border-color:rgba(129,140,248,0.55)}
+    .convItem.active{
+      border-color:rgba(251,191,36,0.65);
+      background:linear-gradient(135deg,rgba(99,102,241,0.18),rgba(251,191,36,0.14));
+    }
+    .convMain{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .convName{
+      font-size:13px;
+      font-weight:650;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .convLast{
+      font-size:11px;color:var(--muted);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      max-width:260px;
+    }
+    .convMeta{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
+      flex:0 0 auto;
+    }
+    .badgeNew{
+      font-size:11px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(34,197,94,0.14);
+      color:#4ade80;
+      border:1px solid rgba(34,197,94,0.18);
+    }
+    .metaTime{
+      font-size:11px;color:var(--muted);
+      direction:ltr;
     }
 
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .logo {
-      width: 32px; height: 32px; border-radius: 16px;
-      background: conic-gradient(from 210deg, #facc15, #fb7185, #a855f7, #38bdf8, #facc15);
-      padding: 2px; flex-shrink: 0;
+    /* Chat */
+    .chat{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      min-height:0;
     }
-    .logo-inner {
-      width: 100%; height: 100%;
-      border-radius: inherit;
-      background: radial-gradient(circle at 20% 0, #111827, #020617);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 15px;
+    .chatHeadRight{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
     }
-    .brand-text h1 { font-size: 14px; font-weight: 600; }
-    .brand-text span { font-size: 11px; color: var(--muted); }
-
-    .topbar-right { display: flex; align-items: center; gap: 8px; }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: 0 14px;
-      height: 34px;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      white-space: nowrap;
+    .chatInfo{
+      font-size:12px;color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:320px;
     }
-    .btn:disabled { opacity: .45; cursor: default; }
-
-    .btn-refresh {
-      background: linear-gradient(135deg, var(--info1), var(--info2));
-      color: #07121f;
-      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.2);
+    .chatMessages{
+      flex:1;
+      min-height:0;
+      overflow:auto;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      background:radial-gradient(circle at 0 0,rgba(56,189,248,0.05),rgba(15,23,42,0.92));
     }
-
-    .pill-count {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.92);
-      font-size: 11px;
-      color: var(--muted);
-      flex-shrink: 0;
+    .empty{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:34px;
+      line-height:1.7;
     }
-
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    .row{display:flex;width:100%;}
+    .row.user{justify-content:flex-start;}
+    .row.admin{justify-content:flex-end;}
+    .bubble{
+      max-width:80%;
+      padding:8px 10px 7px;
+      border-radius:14px;
+      font-size:12px;
+      line-height:1.7;
+      white-space:pre-wrap;
+      word-break:break-word;
+      position:relative;
     }
-
-    .body {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      gap: 8px;
-      padding: 8px;
+    .bubble.user{
+      background:rgba(30,64,175,0.9);
+      border-bottom-right-radius:5px;
     }
-
-    .conv-panel {
-      width: 260px;
-      min-width: 220px;
-      max-width: 280px;
-      border-radius: 14px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      flex-shrink: 0;
+    .bubble.admin{
+      background:linear-gradient(135deg,#fbbf24,#f97316);
+      color:#111827;
+      border-bottom-left-radius:5px;
     }
-
-    .conv-header {
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--border);
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      flex-shrink: 0;
+    .t{
+      margin-top:2px;
+      font-size:10px;
+      opacity:.78;
+      direction:ltr;
+      text-align:left;
+    }
+    .chatInput{
+      border-top:1px solid var(--stroke);
+      padding:10px;
+      display:flex;
+      gap:8px;
+      background:linear-gradient(to right,rgba(15,23,42,0.98),rgba(17,24,39,0.98));
+    }
+    .ta{
+      flex:1;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.45);
+      background:rgba(15,23,42,0.95);
+      color:var(--text);
+      padding:9px 12px;
+      font-size:12px;
+      outline:none;
+      resize:none;
+      max-height:80px;
+      min-height:38px;
     }
 
-    .conv-header span:last-child {
-      font-size: 11px;
-      color: var(--muted);
+    .footNote{
+      padding:10px 12px;
+      font-size:11px;
+      color:var(--muted);
+      border-top:1px solid var(--stroke);
+      background:rgba(2,6,23,0.25);
     }
-
-    .conv-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 4px 4px 8px;
+    .err{
+      padding:10px 12px;
+      font-size:12px;
+      color:var(--danger);
+      border-top:1px solid var(--stroke);
+      background:rgba(239,68,68,0.06);
+      display:none;
+      line-height:1.6;
+      white-space:pre-wrap;
+      word-break:break-word;
     }
-
-    .conv-item {
-      border-radius: 10px;
-      padding: 6px 8px;
-      margin: 3px 1px;
-      border: 1px solid transparent;
-      background: rgba(15, 23, 42, 0.9);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      transition: background 0.15s, border-color 0.15s, transform 0.1s;
-      font-size: 12px;
-    }
-
-    .conv-item:hover {
-      background: rgba(30, 64, 175, 0.9);
-      border-color: rgba(191, 219, 254, 0.85);
-      transform: translateY(-1px);
-    }
-
-    .conv-item.active {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.96), rgba(236, 72, 153, 0.96));
-      border-color: transparent;
-    }
-
-    .conv-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .conv-id {
-      font-weight: 500;
-      font-size: 12px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 130px;
-    }
-
-    .conv-time {
-      font-size: 10px;
-      color: var(--muted);
-    }
-
-    .conv-last {
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .badge-unread {
-      font-size: 10px;
-      padding: 1px 5px;
-      border-radius: 999px;
-      background: #fbbf24;
-      color: #111827;
-      font-weight: 600;
-      margin-right: 2px;
-    }
-
-    .chat-panel {
-      flex: 1;
-      border-radius: 14px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 8px 10px 8px;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      min-height: 0;
-    }
-
-    .chat-header {
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-
-    .chat-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-
-    .danger-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 0 14px;
-      height: 36px;
-      background: linear-gradient(135deg, var(--danger1), var(--danger2));
-      color: #fff;
-      font-weight: 800;
-      font-size: 12px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .danger-btn:disabled { opacity: .45; cursor: default; }
-
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 8px 2px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      min-height: 0;
-    }
-
-    .msg-row { width: 100%; display: flex; }
-    .msg-row.user { justify-content: flex-start; }
-    .msg-row.admin { justify-content: flex-end; }
-
-    .bubble {
-      max-width: 78%;
-      border-radius: 14px;
-      padding: 7px 10px 5px;
-      font-size: 12px;
-      line-height: 1.6;
-      position: relative;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-    }
-
-    .bubble.user {
-      background: rgba(17, 24, 39, 0.96);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      border-bottom-right-radius: 4px;
-    }
-
-    .bubble.admin {
-      background: linear-gradient(135deg, #fbbf24, #f97316);
-      color: #111827;
-      border-bottom-left-radius: 4px;
-    }
-
-    .time {
-      margin-top: 1px;
-      font-size: 10px;
-      opacity: 0.8;
-      text-align: left;
-      direction: ltr;
-    }
-
-    .empty {
-      margin: auto;
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .input-row {
-      border-top: 1px solid var(--border);
-      padding-top: 6px;
-      margin-top: 4px;
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .reply-input {
-      flex: 1;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.97);
-      color: var(--text);
-      font-size: 13px;
-      padding: 9px 13px;
-      min-height: 44px;
-      max-height: 80px;
-      resize: vertical;
-    }
-
-    .send-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 0 18px;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #f9fafb;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 12px 30px rgba(22, 163, 74, 0.7);
-      white-space: nowrap;
-      height: 44px;
-      flex-shrink: 0;
-    }
-
-    .send-btn:disabled {
-      opacity: 0.4;
-      box-shadow: none;
-      cursor: default;
-    }
-
-    .send-icon {
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(22, 163, 74, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-    }
-
-    .error {
-      margin-top: 4px;
-      font-size: 11px;
-      color: #f97373;
-      min-height: 14px;
-      flex-shrink: 0;
-      white-space: pre-wrap;
-    }
-
-    @media (max-width: 768px) {
-      body { padding: 0; }
-      .shell { border-radius: 0; height: 100vh; max-width: 100%; }
-      .body { flex-direction: column; }
-      .conv-panel { width: 100%; max-width: 100%; height: 36%; min-height: 140px; }
-      .chat-panel { height: 64%; margin-top: 4px; }
+    .ok{
+      color:#86efac;
     }
   </style>
 </head>
 
 <body>
-  <div class="shell">
+  <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <div class="logo"><div class="logo-inner">N</div></div>
-        <div class="brand-text">
-          <h1>پنل مدیریت NuLimit</h1>
-          <span>مشاهده و پاسخ به پیام‌های کاربران</span>
+        <div class="logo"><div>N</div></div>
+        <div>
+          <h1>NuLimit مدیریت</h1>
+          <p>مشاهده و پاسخ به پیام‌های کاربران</p>
         </div>
       </div>
 
-      <div class="topbar-right">
-        <button id="refreshBtn" class="btn btn-refresh" type="button">رفرش</button>
-        <div class="pill-count">
-          <span class="pill-dot"></span>
-          <span id="convCountLabel">۰ گفتگو</span>
-        </div>
+      <div class="actions">
+        <input id="searchInput" class="pill" placeholder="جستجو آیدی/پیام..." />
+        <button id="refreshBtn" class="btn" type="button">رفرش</button>
+        <span id="statusPill" class="pill" style="border-color:rgba(34,197,94,0.25);color:#86efac;background:rgba(34,197,94,0.10)">آنلاین</span>
       </div>
     </div>
 
-    <div class="body">
-      <aside class="conv-panel">
-        <div class="conv-header">
-          <span>لیست گفتگوها</span>
-          <span>روی آیدی کاربر بزنید تا پیام‌ها نمایش داده شود.</span>
-        </div>
-        <div id="convList" class="conv-list">
-          <div class="empty">هنوز هیچ گفتگویی ثبت نشده است.</div>
-        </div>
-      </aside>
-
-      <section class="chat-panel">
-        <div class="chat-header">
-          <div>
-            <span id="currentUserTitle">گفتگو انتخاب نشده است</span><br />
-            <span id="currentUserSub">از لیست گفتگوها یک کاربر را انتخاب کنید.</span>
+    <div class="grid">
+      <!-- Conversations -->
+      <div class="panel">
+        <div class="panelHeader">
+          <div class="title">
+            <span>لیست گفتگوها</span>
+            <span id="convCount">۰ گفتگو</span>
           </div>
-          <div class="chat-actions">
-            <button id="deleteConvBtn" class="danger-btn" type="button" disabled>حذف گفتگو</button>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="pill" id="selectedLabel">هیچ گفتگویی انتخاب نشده</span>
           </div>
         </div>
+        <div class="panelBody">
+          <div id="convList" class="convList">
+            <div class="empty">در حال دریافت گفتگوها...</div>
+          </div>
+        </div>
+        <div class="err" id="adminError"></div>
+        <div class="footNote">
+          نکته: حذف گفتگو، تمام پیام‌ها را هم پاک می‌کند.
+        </div>
+      </div>
 
-        <div id="adminMessages" class="messages">
-          <div class="empty">هنوز هیچ گفتگویی انتخاب نشده است.</div>
+      <!-- Chat -->
+      <div class="panel">
+        <div class="panelHeader">
+          <div class="title">
+            <span>چت</span>
+            <span id="chatSub">روی یک گفتگو بزنید تا پیام‌ها نمایش داده شود.</span>
+          </div>
+
+          <div class="chatHeadRight">
+            <button id="markReadBtn" class="btn btn2" type="button" disabled>خوانده شد</button>
+            <button id="deleteBtn" class="btn btnDanger" type="button" disabled>حذف گفتگو</button>
+          </div>
         </div>
 
-        <div class="input-row">
-          <textarea id="replyInput" class="reply-input" placeholder="پاسخ خود را بنویسید..." disabled></textarea>
-          <button id="adminSendBtn" class="send-btn" type="button" disabled>
-            <span>ارسال پاسخ</span>
-            <span class="send-icon">➤</span>
-          </button>
+        <div class="panelBody chat">
+          <div id="chatMessages" class="chatMessages">
+            <div class="empty">هنوز گفتگویی انتخاب نشده است.</div>
+          </div>
+
+          <div class="chatInput">
+            <textarea id="replyInput" class="ta" rows="1" placeholder="پاسخ خود را بنویسید..." disabled></textarea>
+            <button id="sendBtn" class="btn btn2" type="button" disabled>ارسال پاسخ</button>
+          </div>
         </div>
-        <div id="adminError" class="error"></div>
-      </section>
+      </div>
     </div>
   </div>
 
-  <!-- Firebase -->
+  <!-- Firebase (Compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
+    // ==========================
+    // 1) Firebase Config
+    // ==========================
     const firebaseConfig = {
       apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
       authDomain: "nulimit-support.firebaseapp.com",
@@ -468,303 +410,437 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
+    // ==========================
+    // 2) UI refs
+    // ==========================
     const convListEl = document.getElementById('convList');
-    const messagesEl = document.getElementById('adminMessages');
-    const replyInput = document.getElementById('replyInput');
-    const adminSendBtn = document.getElementById('adminSendBtn');
-    const deleteConvBtn = document.getElementById('deleteConvBtn');
+    const convCountEl = document.getElementById('convCount');
+    const selectedLabel = document.getElementById('selectedLabel');
+    const chatSub = document.getElementById('chatSub');
+    const chatMessagesEl = document.getElementById('chatMessages');
+
+    const searchInput = document.getElementById('searchInput');
     const refreshBtn = document.getElementById('refreshBtn');
-    const adminError = document.getElementById('adminError');
-    const currentUserTitle = document.getElementById('currentUserTitle');
-    const currentUserSub = document.getElementById('currentUserSub');
-    const convCountLabel = document.getElementById('convCountLabel');
+    const statusPill = document.getElementById('statusPill');
 
-    let selectedUserId = null;
-    let selectedDisplayId = null;
-    let unsubscribeMessages = null;
+    const replyInput = document.getElementById('replyInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const markReadBtn = document.getElementById('markReadBtn');
 
-    refreshBtn.addEventListener('click', () => location.reload());
+    const adminErrorEl = document.getElementById('adminError');
 
-    // نمایش اعداد فارسی
-    const faDigits = (n) => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    function setError(msg) {
+      if (!msg) {
+        adminErrorEl.style.display = 'none';
+        adminErrorEl.textContent = '';
+        return;
+      }
+      adminErrorEl.style.display = 'block';
+      adminErrorEl.textContent = msg;
+    }
 
-    function resetChatUI() {
-      selectedUserId = null;
-      selectedDisplayId = null;
+    function setOnline(isOnline) {
+      if (isOnline) {
+        statusPill.textContent = 'آنلاین';
+        statusPill.style.borderColor = 'rgba(34,197,94,0.25)';
+        statusPill.style.color = '#86efac';
+        statusPill.style.background = 'rgba(34,197,94,0.10)';
+      } else {
+        statusPill.textContent = 'آفلاین';
+        statusPill.style.borderColor = 'rgba(239,68,68,0.25)';
+        statusPill.style.color = '#fecaca';
+        statusPill.style.background = 'rgba(239,68,68,0.10)';
+      }
+    }
 
-      if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+    function fmtTime(ts) {
+      try {
+        const d = ts && ts.toDate ? ts.toDate() : (ts instanceof Date ? ts : null);
+        if (!d) return '';
+        return d.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+      } catch {
+        return '';
+      }
+    }
+
+    function fmtDateTime(ts) {
+      try {
+        const d = ts && ts.toDate ? ts.toDate() : (ts instanceof Date ? ts : null);
+        if (!d) return '';
+        return d.toLocaleString('fa-IR', { hour: '2-digit', minute: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit' });
+      } catch {
+        return '';
+      }
+    }
+
+    function escapeText(s) {
+      return (s ?? '').toString();
+    }
+
+    // ==========================
+    // 3) State
+    // ==========================
+    let selectedConvId = null;
+    let selectedConvData = null;
+
+    let unsubConvs = null;
+    let unsubMsgs = null;
+
+    // برای فیلتر ساده سمت کلاینت
+    let allConvsCache = [];
+
+    // ==========================
+    // 4) Conversations subscribe/render
+    // ==========================
+    function renderConversations(list) {
+      convListEl.innerHTML = '';
+
+      if (!list.length) {
+        convListEl.innerHTML = '<div class="empty">گفتگویی یافت نشد.</div>';
+        convCountEl.textContent = '۰ گفتگو';
+        return;
+      }
+
+      convCountEl.textContent = `${list.length} گفتگو`;
+
+      list.forEach(item => {
+        const { id, data } = item;
+        const displayId = data.displayId || data.userId || id;
+        const lastMessage = data.lastMessage || '';
+        const lastTs = data.lastTimestamp || data.createdAt || null;
+        const unread = !!data.unreadForAdmin;
+
+        const el = document.createElement('div');
+        el.className = 'convItem' + (id === selectedConvId ? ' active' : '');
+        el.dataset.id = id;
+
+        const left = document.createElement('div');
+        left.className = 'convMain';
+
+        const name = document.createElement('div');
+        name.className = 'convName';
+        name.textContent = displayId;
+
+        const last = document.createElement('div');
+        last.className = 'convLast';
+        last.textContent = lastMessage;
+
+        left.appendChild(name);
+        left.appendChild(last);
+
+        const right = document.createElement('div');
+        right.className = 'convMeta';
+
+        if (unread) {
+          const b = document.createElement('div');
+          b.className = 'badgeNew';
+          b.textContent = 'جدید';
+          right.appendChild(b);
+        } else {
+          // جایگزین برای هم‌تراز شدن
+          const spacer = document.createElement('div');
+          spacer.style.height = '0px';
+          right.appendChild(spacer);
+        }
+
+        const t = document.createElement('div');
+        t.className = 'metaTime';
+        t.textContent = fmtTime(lastTs);
+        right.appendChild(t);
+
+        el.appendChild(left);
+        el.appendChild(right);
+
+        el.addEventListener('click', () => selectConversation(id, data));
+        convListEl.appendChild(el);
+      });
+    }
+
+    function applySearchAndRender() {
+      const q = (searchInput.value || '').trim().toLowerCase();
+      if (!q) {
+        renderConversations(allConvsCache);
+        return;
+      }
+
+      const filtered = allConvsCache.filter(({ id, data }) => {
+        const displayId = (data.displayId || data.userId || id || '').toString().toLowerCase();
+        const lastMessage = (data.lastMessage || '').toString().toLowerCase();
+        return displayId.includes(q) || lastMessage.includes(q) || id.toLowerCase().includes(q);
+      });
+
+      renderConversations(filtered);
+    }
+
+    function subscribeConversations() {
+      if (unsubConvs) unsubConvs();
+
+      convListEl.innerHTML = '<div class="empty">در حال دریافت گفتگوها...</div>';
+      setError('');
+
+      const ref = db.collection('conversations').orderBy('lastTimestamp', 'desc');
+
+      unsubConvs = ref.onSnapshot(snap => {
+        setOnline(true);
+
+        const list = [];
+        snap.forEach(doc => list.push({ id: doc.id, data: doc.data() || {} }));
+        allConvsCache = list;
+
+        applySearchAndRender();
+
+        // اگر گفتگو انتخاب شده و هنوز وجود دارد، label را آپدیت کن
+        if (selectedConvId) {
+          const found = list.find(x => x.id === selectedConvId);
+          if (found) {
+            selectedConvData = found.data;
+            selectedLabel.textContent = 'انتخاب شده: ' + (found.data.displayId || found.data.userId || selectedConvId);
+          } else {
+            // حذف شده
+            clearSelection();
+          }
+        }
+
+      }, err => {
+        console.error(err);
+        setOnline(false);
+        setError('خطا در دریافت گفتگوها:\n' + (err.code || '') + ' ' + (err.message || ''));
+      });
+    }
+
+    // ==========================
+    // 5) Select conversation + messages
+    // ==========================
+    function clearSelection() {
+      selectedConvId = null;
+      selectedConvData = null;
+
+      selectedLabel.textContent = 'هیچ گفتگویی انتخاب نشده';
+      chatSub.textContent = 'روی یک گفتگو بزنید تا پیام‌ها نمایش داده شود.';
+      chatMessagesEl.innerHTML = '<div class="empty">هنوز گفتگویی انتخاب نشده است.</div>';
 
       replyInput.value = '';
       replyInput.disabled = true;
-      adminSendBtn.disabled = true;
-      deleteConvBtn.disabled = true;
+      sendBtn.disabled = true;
+      deleteBtn.disabled = true;
+      markReadBtn.disabled = true;
 
-      currentUserTitle.textContent = 'گفتگو انتخاب نشده است';
-      currentUserSub.textContent = 'از لیست گفتگوها یک کاربر را انتخاب کنید.';
-      messagesEl.innerHTML = '<div class="empty">هنوز هیچ گفتگویی انتخاب نشده است.</div>';
+      if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
 
-      Array.from(convListEl.children).forEach(el => {
-        if (el.classList && el.classList.contains('conv-item')) el.classList.remove('active');
-      });
+      // رندر لیست برای برداشتن active
+      applySearchAndRender();
     }
 
-    // ساخت آیتم لیست
-    function renderConversationItem(doc) {
-      const c = doc.data();
+    async function selectConversation(convId, data) {
+      setError('');
+      selectedConvId = convId;
+      selectedConvData = data || {};
 
-      const item = document.createElement('div');
-      item.className = 'conv-item' + (doc.id === selectedUserId ? ' active' : '');
-      item.dataset.id = doc.id;
+      const displayId = selectedConvData.displayId || selectedConvData.userId || convId;
 
-      const top = document.createElement('div');
-      top.className = 'conv-top';
-
-      const idSpan = document.createElement('span');
-      idSpan.className = 'conv-id';
-      idSpan.textContent = c.userId || doc.id;
-
-      const right = document.createElement('div');
-      right.style.display = 'flex';
-      right.style.alignItems = 'center';
-      right.style.gap = '4px';
-
-      if (c.unreadForAdmin) {
-        const unread = document.createElement('span');
-        unread.className = 'badge-unread';
-        unread.textContent = 'جدید';
-        right.appendChild(unread);
-      }
-
-      const timeSpan = document.createElement('span');
-      timeSpan.className = 'conv-time';
-      if (c.lastTimestamp && c.lastTimestamp.toDate) {
-        const d = c.lastTimestamp.toDate();
-        timeSpan.textContent = d.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-      }
-      right.appendChild(timeSpan);
-
-      top.appendChild(idSpan);
-      top.appendChild(right);
-
-      const last = document.createElement('div');
-      last.className = 'conv-last';
-      last.textContent = c.lastMessage || 'بدون پیام';
-
-      item.appendChild(top);
-      item.appendChild(last);
-
-      item.addEventListener('click', () => selectConversation(doc.id, c.userId || doc.id));
-      return item;
-    }
-
-    // لیست گفتگوها
-    db.collection('conversations')
-      .orderBy('lastTimestamp', 'desc')
-      .onSnapshot(snapshot => {
-        convListEl.innerHTML = '';
-        convCountLabel.textContent = faDigits(snapshot.size) + ' گفتگو';
-
-        if (snapshot.empty) {
-          convListEl.innerHTML = '<div class="empty">هنوز هیچ گفتگویی ثبت نشده است.</div>';
-          resetChatUI();
-          return;
-        }
-
-        snapshot.forEach(doc => convListEl.appendChild(renderConversationItem(doc)));
-      }, err => {
-        console.error(err);
-        adminError.textContent = 'خطا در دریافت لیست گفتگوها.\n' + (err.code || '') + (err.message ? ('\n' + err.message) : '');
-      });
-
-    function selectConversation(userId, displayId) {
-      selectedUserId = userId;
-      selectedDisplayId = displayId;
-
-      adminError.textContent = '';
-      currentUserTitle.textContent = 'گفتگو با: ' + (displayId || userId);
-      currentUserSub.textContent = 'پیام‌های این کاربر در پایین نمایش داده می‌شود.';
+      selectedLabel.textContent = 'انتخاب شده: ' + displayId;
+      chatSub.textContent = 'گفتگو با: ' + displayId + ' — ' + (selectedConvData.deviceId ? ('device: ' + selectedConvData.deviceId) : '');
+      deleteBtn.disabled = false;
+      markReadBtn.disabled = false;
 
       replyInput.disabled = false;
-      adminSendBtn.disabled = false;
-      deleteConvBtn.disabled = false;
+      sendBtn.disabled = false;
+      replyInput.focus();
 
-      // خوانده شدن برای ادمین
-      db.collection('conversations').doc(userId).set({ unreadForAdmin: false }, { merge: true }).catch(()=>{});
+      // رندر لیست برای active
+      applySearchAndRender();
 
-      Array.from(convListEl.children).forEach(el => {
-        if (el.classList && el.classList.contains('conv-item')) {
-          el.classList.toggle('active', el.dataset.id === userId);
-        }
-      });
+      // mark as read for admin (best effort)
+      try {
+        await db.collection('conversations').doc(convId).set({ unreadForAdmin: false }, { merge: true });
+      } catch (e) {
+        console.warn('mark read failed:', e);
+      }
 
-      if (unsubscribeMessages) unsubscribeMessages();
+      subscribeMessages(convId);
+    }
+
+    function subscribeMessages(convId) {
+      if (unsubMsgs) unsubMsgs();
+
+      chatMessagesEl.innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
 
       const msgsRef = db
-        .collection('conversations')
-        .doc(userId)
+        .collection('conversations').doc(convId)
         .collection('messages')
         .orderBy('createdAt', 'asc');
 
-      unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
-        messagesEl.innerHTML = '';
-        if (snapshot.empty) {
-          messagesEl.innerHTML = '<div class="empty">این گفتگو هنوز پیامی ندارد.</div>';
+      unsubMsgs = msgsRef.onSnapshot(snap => {
+        chatMessagesEl.innerHTML = '';
+        if (snap.empty) {
+          chatMessagesEl.innerHTML = '<div class="empty">هنوز پیامی در این گفتگو وجود ندارد.</div>';
           return;
         }
 
-        snapshot.forEach(doc => {
-          const m = doc.data();
+        snap.forEach(doc => {
+          const m = doc.data() || {};
           const row = document.createElement('div');
-          row.className = 'msg-row ' + (m.sender === 'admin' ? 'admin' : 'user');
+          row.className = 'row ' + (m.sender === 'admin' ? 'admin' : 'user');
 
           const bubble = document.createElement('div');
           bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
-          bubble.textContent = m.text || '';
+          bubble.textContent = escapeText(m.text);
 
-          const time = document.createElement('div');
-          time.className = 'time';
-          const date = (m.createdAt && m.createdAt.toDate) ? m.createdAt.toDate() : new Date();
-          time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+          const t = document.createElement('div');
+          t.className = 't';
+          t.textContent = fmtTime(m.createdAt);
 
-          bubble.appendChild(time);
+          bubble.appendChild(t);
           row.appendChild(bubble);
-          messagesEl.appendChild(row);
+          chatMessagesEl.appendChild(row);
         });
 
-        messagesEl.scrollTop = messagesEl.scrollHeight + 200;
+        chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight + 200;
+
       }, err => {
         console.error(err);
-        adminError.textContent = 'خطا در دریافت پیام‌ها.\n' + (err.code || '') + (err.message ? ('\n' + err.message) : '');
+        setError('خطا در دریافت پیام‌ها:\n' + (err.code || '') + ' ' + (err.message || ''));
       });
     }
 
-    adminSendBtn.addEventListener('click', sendReply);
-    replyInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendReply();
-      }
-    });
-
-    async function sendReply() {
-      if (!selectedUserId) {
-        adminError.textContent = 'ابتدا یک گفتگو را از لیست انتخاب کنید.';
-        return;
-      }
+    // ==========================
+    // 6) Send admin reply
+    // ==========================
+    async function sendAdminMessage() {
+      setError('');
+      if (!selectedConvId) return;
 
       const text = (replyInput.value || '').trim();
       if (!text) return;
 
-      replyInput.value = '';
-      replyInput.focus();
+      sendBtn.disabled = true;
 
-      const convRef = db.collection('conversations').doc(selectedUserId);
+      const convRef = db.collection('conversations').doc(selectedConvId);
       const msgsRef = convRef.collection('messages');
 
       const batch = db.batch();
-      const msgDoc = msgsRef.doc();
-
-      batch.set(msgDoc, {
+      batch.set(msgsRef.doc(), {
         text,
         sender: 'admin',
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-
       batch.set(convRef, {
         lastMessage: text,
         lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        unreadForUser: true
+        unreadForUser: true,
+        unreadForAdmin: false
       }, { merge: true });
 
       try {
         await batch.commit();
-      } catch (err) {
-        console.error(err);
-        adminError.textContent = 'خطا در ارسال پاسخ.\n' + (err.code || '') + (err.message ? ('\n' + err.message) : '');
+        replyInput.value = '';
+        replyInput.focus();
+      } catch (e) {
+        console.error(e);
+        setError('ارسال انجام نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
+      } finally {
+        sendBtn.disabled = false;
       }
     }
 
-    // ========= FIX حذف گفتگو =========
-    // دلیل رایج کار نکردن:
-    // 1) permission-denied در Rules (باید delete مجاز باشد)
-    // 2) limit/عدم ترتیب در query حذف پیام‌ها
-    // 3) selectedUserId عوض می‌شود وسط حذف
-    // 4) روی موبایل confirm گاهی بلاک می‌شود => اینجا علاوه بر confirm، پیام وضعیت هم می‌دهیم
-    async function deleteConversationHard(userIdToDelete) {
-      const convRef = db.collection('conversations').doc(userIdToDelete);
-      const msgsRef = convRef.collection('messages');
-
-      // حذف صفحه‌ای با orderBy(__name__) که مطمئن‌ترین روش برای paginate است
-      while (true) {
-        const snap = await msgsRef
-          .orderBy(firebase.firestore.FieldPath.documentId())
-          .limit(450)
-          .get();
-
-        if (snap.empty) break;
-
-        const batch = db.batch();
-        snap.docs.forEach(d => batch.delete(d.ref));
-        await batch.commit();
-      }
-
-      // حذف سند مکالمه
-      await convRef.delete();
-    }
-
-    deleteConvBtn.addEventListener('click', async () => {
-      adminError.textContent = '';
-
-      if (!selectedUserId) {
-        adminError.textContent = 'ابتدا یک گفتگو را انتخاب کنید.';
-        return;
-      }
-
-      const userIdToDelete = selectedUserId; // قفل
-      const display = selectedDisplayId || userIdToDelete;
-
-      // اگر confirm در بعضی WebView ها مشکل دارد، باز هم با Cancel چیزی حذف نمی‌شود
-      const ok = confirm('حذف گفتگو با "' + display + '" و تمام پیام‌ها؟');
-      if (!ok) return;
-
-      deleteConvBtn.disabled = true;
-      adminSendBtn.disabled = true;
-      replyInput.disabled = true;
-
-      try {
-        // قطع listener پیام‌ها تا حین حذف snapshot به مشکل نخورد
-        if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
-
-        adminError.textContent = 'در حال حذف گفتگو...';
-
-        await deleteConversationHard(userIdToDelete);
-
-        adminError.textContent = 'گفتگو حذف شد.';
-        resetChatUI();
-
-      } catch (err) {
-        console.error(err);
-
-        let msg = 'خطا در حذف گفتگو.';
-        if (err && err.code === 'permission-denied') {
-          msg += '\npermission-denied: قوانین Firestore اجازه حذف نمی‌دهند.';
-        } else if (err && err.code) {
-          msg += '\n' + err.code;
-        }
-        if (err && err.message) msg += '\n' + err.message;
-
-        adminError.textContent = msg;
-
-        // برگرداندن UI
-        if (selectedUserId) {
-          replyInput.disabled = false;
-          adminSendBtn.disabled = false;
-          deleteConvBtn.disabled = false;
-        } else {
-          resetChatUI();
-        }
+    sendBtn.addEventListener('click', sendAdminMessage);
+    replyInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendAdminMessage();
       }
     });
+
+    // ==========================
+    // 7) Mark read
+    // ==========================
+    markReadBtn.addEventListener('click', async () => {
+      setError('');
+      if (!selectedConvId) return;
+
+      try {
+        await db.collection('conversations').doc(selectedConvId).set({
+          unreadForAdmin: false
+        }, { merge: true });
+      } catch (e) {
+        console.error(e);
+        setError('خوانده‌شدن ثبت نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
+      }
+    });
+
+    // ==========================
+    // 8) Delete conversation (deep delete messages + conv doc)
+    // ==========================
+    async function deleteConversationDeep(convId) {
+      if (!convId) return;
+
+      const name = (selectedConvData && (selectedConvData.displayId || selectedConvData.userId)) ? (selectedConvData.displayId || selectedConvData.userId) : convId;
+      const ok = confirm(`گفتگو "${name}" حذف شود؟\n(تمام پیام‌ها پاک می‌شود)`);
+      if (!ok) return;
+
+      setError('');
+      deleteBtn.disabled = true;
+      markReadBtn.disabled = true;
+      sendBtn.disabled = true;
+      replyInput.disabled = true;
+
+      // قطع listener پیام‌ها تا وسط حذف دوباره رندر نکنه
+      if (unsubMsgs) { unsubMsgs(); unsubMsgs = null; }
+
+      const convRef = db.collection('conversations').doc(convId);
+      const msgsCol = convRef.collection('messages');
+
+      try {
+        // حذف پیام‌ها در batch های < 500
+        while (true) {
+          const snap = await msgsCol
+            .orderBy(firebase.firestore.FieldPath.documentId())
+            .limit(450)
+            .get();
+
+          if (snap.empty) break;
+
+          const batch = db.batch();
+          snap.docs.forEach(d => batch.delete(d.ref));
+          await batch.commit();
+        }
+
+        await convRef.delete();
+
+        // پاک کردن UI
+        clearSelection();
+        setError('گفتگو حذف شد.').toString;
+
+      } catch (e) {
+        console.error(e);
+        setError('حذف انجام نشد:\n' + (e.code || '') + ' ' + (e.message || ''));
+        // برگرداندن UI
+        deleteBtn.disabled = false;
+        markReadBtn.disabled = false;
+        replyInput.disabled = false;
+        sendBtn.disabled = false;
+        // دوباره پیام‌ها را سابسکرایب کن
+        subscribeMessages(convId);
+      }
+    }
+
+    deleteBtn.addEventListener('click', () => deleteConversationDeep(selectedConvId));
+
+    // ==========================
+    // 9) Search + refresh
+    // ==========================
+    searchInput.addEventListener('input', applySearchAndRender);
+    refreshBtn.addEventListener('click', () => {
+      setError('');
+      subscribeConversations();
+      if (selectedConvId) subscribeMessages(selectedConvId);
+    });
+
+    // ==========================
+    // 10) Boot
+    // ==========================
+    subscribeConversations();
   </script>
 </body>
 </html>
