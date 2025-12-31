@@ -14,6 +14,7 @@
       --text:#f9fafb;
       --text-muted:#a1a5c3;
       --danger:#ff4b81;
+      --ok:#4ade80;
     }
     *{box-sizing:border-box;margin:0;padding:0;}
     body{
@@ -39,7 +40,13 @@
       flex-direction:column;
       gap:14px;
     }
-    .brand{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;}
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:4px;
+    }
     .brand-left{display:flex;align-items:center;gap:10px;}
     .logo-circle{
       width:36px;height:36px;border-radius:18px;
@@ -67,153 +74,81 @@
       background:#22c55e;
       box-shadow:0 0 12px rgba(34,197,94,0.9);
     }
-
     .section-title{font-size:13px;color:var(--text-muted);}
     .id-box{display:flex;gap:8px;margin-top:4px;margin-bottom:4px;}
     .id-input{
-      flex:1;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,0.6);
-      background:rgba(15,23,42,0.8);
-      color:var(--text);
-      padding:8px 12px;
-      font-size:13px;
-      outline:none;
-      transition:all .2s;
+      flex:1;border-radius:999px;border:1px solid rgba(148,163,184,0.6);
+      background:rgba(15,23,42,0.8);color:var(--text);
+      padding:8px 12px;font-size:13px;outline:none;transition:all .2s;
     }
-    .id-input:focus{
-      border-color:var(--accent2);
-      box-shadow:0 0 0 1px rgba(129,140,248,0.7);
-    }
+    .id-input:focus{border-color:var(--accent2);box-shadow:0 0 0 1px rgba(129,140,248,0.7);}
     .id-btn{
-      border:none;
-      border-radius:999px;
-      padding:8px 14px;
-      font-size:13px;
+      border:none;border-radius:999px;padding:8px 14px;font-size:13px;
       background:linear-gradient(135deg,#fbbf24,#f97316);
-      color:#111827;
-      font-weight:600;
-      cursor:pointer;
-      white-space:nowrap;
+      color:#111827;font-weight:600;cursor:pointer;white-space:nowrap;
       box-shadow:0 12px 30px rgba(251,191,36,0.38);
       transition:transform .12s, box-shadow .12s, filter .15s;
     }
     .id-btn:hover{filter:brightness(1.05);box-shadow:0 16px 40px rgba(251,191,36,0.50);transform:translateY(-1px);}
     .id-btn:active{transform:translateY(0);box-shadow:0 10px 24px rgba(251,191,36,0.35);}
-    .id-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;transform:none;filter:none;}
-
     .hint{font-size:11px;color:var(--text-muted);}
-    .error{font-size:11px;color:var(--danger);margin-top:2px;min-height:14px;}
-
     .chat-box{
-      margin-top:4px;
-      border-radius:18px;
-      border:1px solid rgba(148,163,184,0.30);
+      margin-top:4px;border-radius:18px;border:1px solid rgba(148,163,184,0.30);
       background:radial-gradient(circle at 0 0,rgba(56,189,248,0.05),rgba(15,23,42,0.95));
-      display:flex;
-      flex-direction:column;
-      height:340px;
-      overflow:hidden;
+      display:flex;flex-direction:column;height:340px;overflow:hidden;
     }
     .chat-header{
-      padding:10px 12px 8px;
-      border-bottom:1px solid rgba(148,163,184,0.25);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      font-size:12px;
+      padding:10px 12px 8px;border-bottom:1px solid rgba(148,163,184,0.25);
+      display:flex;align-items:center;justify-content:space-between;font-size:12px;
     }
     .chat-header-left{display:flex;flex-direction:column;gap:2px;}
     .chat-header-left span:first-child{font-weight:500;}
     .chat-header-left span:last-child{font-size:11px;color:var(--text-muted);}
-    .badge-soft{
-      padding:4px 10px;
-      border-radius:999px;
-      background:rgba(129,140,248,0.15);
-      color:#c7d2fe;
-      font-size:11px;
-    }
+    .badge-soft{padding:4px 10px;border-radius:999px;background:rgba(129,140,248,0.15);color:#c7d2fe;font-size:11px;}
     .messages{
-      flex:1;
-      padding:10px 10px 12px;
-      overflow-y:auto;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      scroll-behavior:smooth;
+      flex:1;padding:10px 10px 12px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth;
     }
     .msg-row{display:flex;width:100%;}
     .msg-row.user{justify-content:flex-start;}
     .msg-row.admin{justify-content:flex-end;}
-    .bubble{
-      max-width:78%;
-      padding:7px 10px 6px;
-      border-radius:14px;
-      font-size:12px;
-      line-height:1.6;
-      position:relative;
-      white-space:pre-wrap;
-      word-break:break-word;
-    }
+    .bubble{max-width:78%;padding:7px 10px 6px;border-radius:14px;font-size:12px;line-height:1.6;position:relative;}
     .bubble.user{background:rgba(30,64,175,0.9);border-bottom-right-radius:4px;}
     .bubble.admin{background:linear-gradient(135deg,#fbbf24,#f97316);color:#111827;border-bottom-left-radius:4px;}
     .time{margin-top:1px;font-size:10px;opacity:.75;text-align:left;direction:ltr;}
     .empty-state{text-align:center;margin-top:32px;font-size:12px;color:var(--text-muted);}
     .empty-state strong{color:#e5e7eb;}
-
     .input-row{
       border-top:1px solid rgba(148,163,184,0.25);
-      padding:8px;
-      display:flex;
-      gap:6px;
+      padding:8px;display:flex;gap:6px;
       background:linear-gradient(to right,rgba(15,23,42,0.98),rgba(17,24,39,0.98));
     }
     .msg-input{
-      flex:1;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,0.45);
-      background:rgba(15,23,42,0.95);
-      color:var(--text);
-      padding:8px 12px;
-      font-size:12px;
-      outline:none;
-      resize:none;
-      max-height:60px;
-      min-height:34px;
+      flex:1;border-radius:999px;border:1px solid rgba(148,163,184,0.45);
+      background:rgba(15,23,42,0.95);color:var(--text);
+      padding:8px 12px;font-size:12px;outline:none;resize:none;max-height:60px;min-height:34px;
     }
     .send-btn{
-      border:none;
-      border-radius:999px;
-      padding:0 14px;
-      font-size:13px;
+      border:none;border-radius:999px;padding:0 14px;font-size:13px;
       background:linear-gradient(135deg,#4f46e5,#a855f7);
-      color:#f9fafb;
-      font-weight:500;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:6px;
+      color:#f9fafb;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;
       box-shadow:0 10px 28px rgba(79,70,229,0.55);
       transition:transform .12s, box-shadow .12s, filter .15s;
     }
     .send-btn:hover{filter:brightness(1.05);transform:translateY(-1px);box-shadow:0 14px 34px rgba(79,70,229,0.65);}
     .send-btn:active{transform:translateY(0);box-shadow:0 9px 22px rgba(79,70,229,0.50);}
-    .send-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;transform:none;filter:none;}
     .send-icon{
-      width:14px;height:14px;
-      border-radius:999px;
-      border:1px solid rgba(226,232,240,0.7);
-      display:flex;align-items:center;justify-content:center;
-      font-size:10px;
+      width:14px;height:14px;border-radius:999px;border:1px solid rgba(226,232,240,0.7);
+      display:flex;align-items:center;justify-content:center;font-size:10px;
     }
-
+    .disabled{opacity:.5;pointer-events:none;}
+    .error{font-size:11px;color:var(--danger);margin-top:2px;min-height:14px;}
+    .ok{font-size:11px;color:var(--ok);margin-top:2px;min-height:14px;}
     @media (max-width:480px){
       .glass-card{padding:18px 14px 14px;border-radius:20px;}
       .chat-box{height:360px;}
     }
   </style>
 </head>
-
 <body>
   <div class="glass-card">
     <div class="brand">
@@ -233,11 +168,14 @@
     <div>
       <div class="section-title">۱. ساخت آیدی گفتگو</div>
       <div class="id-box">
-        <input id="userIdInput" class="id-input" placeholder="مثلاً: nima_fx یا sara123" autocomplete="off" />
+        <input id="userIdInput" class="id-input" placeholder="مثلاً: nima_fx یا sara123" />
         <button id="saveIdBtn" class="id-btn" type="button">تأیید آیدی</button>
       </div>
-      <div class="hint" id="idHint">آیدی را وارد کنید.</div>
+      <div class="hint" id="idHint">
+        هر دستگاه فقط یک آیدی می‌تواند ثبت کند. آیدی باید یکتا باشد.
+      </div>
       <div class="error" id="idError"></div>
+      <div class="ok" id="idOk"></div>
     </div>
 
     <div>
@@ -250,17 +188,15 @@
           </div>
           <div class="badge-soft">امن و محرمانه</div>
         </div>
-
         <div class="messages" id="messages">
           <div class="empty-state">
             <strong>سلام!</strong><br>
             آیدی خود را ثبت کنید و اولین پیام‌تان را برای تیم NuLimit بفرستید.
           </div>
         </div>
-
         <div class="input-row">
           <textarea id="messageInput" class="msg-input" rows="1" placeholder="پیام خود را بنویسید..." disabled></textarea>
-          <button id="sendBtn" class="send-btn" type="button" disabled>
+          <button id="sendBtn" class="send-btn disabled" type="button">
             <span>ارسال</span>
             <span class="send-icon">➤</span>
           </button>
@@ -269,306 +205,303 @@
     </div>
   </div>
 
-  <!-- Firebase (Compat) -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
   <script>
-    (function () {
-      // UI
-      const userIdInput = document.getElementById('userIdInput');
-      const saveIdBtn = document.getElementById('saveIdBtn');
-      const idError = document.getElementById('idError');
-      const idHint = document.getElementById('idHint');
-      const userIdLabel = document.getElementById('userIdLabel');
-      const messagesEl = document.getElementById('messages');
-      const msgInput = document.getElementById('messageInput');
-      const sendBtn = document.getElementById('sendBtn');
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
+      authDomain: "nulimit-support.firebaseapp.com",
+      projectId: "nulimit-support",
+      storageBucket: "nulimit-support.firebasestorage.app",
+      messagingSenderId: "325154539382",
+      appId: "1:325154539382:web:06d02a36452866c15f9c57",
+      measurementId: "G-F8DN4LMKKG"
+    };
 
-      function showError(msg){ idError.textContent = msg || ''; }
-      function setHint(msg){ idHint.textContent = msg || ''; }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-      // IMPORTANT FIX:
-      // ورودی آیدی همیشه قابل تایپ باشد. فقط وقتی اکانت قفل شد disable می‌کنیم.
-      userIdInput.disabled = false;
+    const userIdInput = document.getElementById('userIdInput');
+    const saveIdBtn = document.getElementById('saveIdBtn');
+    const idError = document.getElementById('idError');
+    const idOk = document.getElementById('idOk');
+    const idHint = document.getElementById('idHint');
+    const userIdLabel = document.getElementById('userIdLabel');
+    const messagesEl = document.getElementById('messages');
+    const msgInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
 
-      // Firebase config
-      const firebaseConfig = {
-        apiKey: "AIzaSyDLGZW1MwhWfREMcsIS__h1Czygsn8VLBU",
-        authDomain: "nulimit-support.firebaseapp.com",
-        projectId: "nulimit-support",
-        storageBucket: "nulimit-support.firebasestorage.app",
-        messagingSenderId: "325154539382",
-        appId: "1:325154539382:web:06d02a36452866c15f9c57",
-        measurementId: "G-F8DN4LMKKG"
-      };
+    let currentUserId = null;
+    let unsubscribeMessages = null;
 
-      if (!window.firebase) {
-        showError('Firebase لود نشده. اینترنت/فیلترشکن را بررسی کنید.');
-        saveIdBtn.disabled = true;
+    // کلیدهای LocalStorage
+    const LS_DEVICE_KEY = 'nulimit_device_key_v1';
+    const LS_USER_ID = 'nulimit_user_id';
+
+    // ساخت "شناسه دستگاه" داخل مرورگر (تقریباً یک دستگاه/یک مرورگر)
+    function getOrCreateDeviceKey() {
+      let k = localStorage.getItem(LS_DEVICE_KEY);
+      if (!k) {
+        k = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 12);
+        localStorage.setItem(LS_DEVICE_KEY, k);
+      }
+      return k;
+    }
+    const deviceKey = getOrCreateDeviceKey();
+
+    // نرمال‌سازی آیدی (برای جلوگیری از دور زدن با حروف بزرگ/فاصله/کاراکترهای عجیب)
+    function normalizeUserId(input) {
+      let s = (input || '').trim();
+
+      // تبدیل حروف عربی/فارسی مشابه
+      s = s
+        .replace(/ي/g, 'ی')
+        .replace(/ك/g, 'ک')
+        .replace(/\u200c/g, '') // نیم‌فاصله
+        .toLowerCase();
+
+      // فقط حروف/اعداد/underscore و نقطه
+      // (اگر می‌خواهی خط تیره هم مجاز باشد: - را هم اضافه کن)
+      s = s.replace(/[^a-z0-9_\.\u0600-\u06FF]/g, '');
+
+      // حذف نقطه/آندرلاین‌های تکراری از ابتدا/انتها
+      s = s.replace(/^[\._]+|[\._]+$/g, '');
+
+      return s;
+    }
+
+    function isValidUserId(id) {
+      if (!id) return false;
+      if (id.length < 3 || id.length > 20) return false;
+      // باید با حرف/عدد شروع شود
+      if (!/^[a-z0-9\u0600-\u06FF]/.test(id)) return false;
+      // فقط کاراکترهای مجاز
+      if (!/^[a-z0-9_\.\u0600-\u06FF]+$/.test(id)) return false;
+      return true;
+    }
+
+    function setUiLocked(locked) {
+      saveIdBtn.disabled = locked;
+      userIdInput.disabled = locked && !!currentUserId;
+    }
+
+    // اگر قبلاً آیدی در مرورگر ذخیره شده باشد => اجازه تغییر نمی‌دهیم (یک اکانت در هر دستگاه)
+    const savedId = localStorage.getItem(LS_USER_ID);
+    if (savedId) {
+      userIdInput.value = savedId;
+      userIdInput.disabled = true;
+      saveIdBtn.disabled = true;
+      idHint.textContent = 'این دستگاه قبلاً آیدی ثبت کرده است و امکان ثبت آیدی جدید ندارد.';
+      setUserId(savedId, false).catch(console.error);
+    }
+
+    saveIdBtn.addEventListener('click', async () => {
+      idError.textContent = '';
+      idOk.textContent = '';
+
+      // اگر قبلاً اکانت ساخته شده
+      const already = localStorage.getItem(LS_USER_ID);
+      if (already) {
+        idError.textContent = 'این دستگاه قبلاً یک آیدی ثبت کرده است و امکان ساخت آیدی جدید ندارد.';
         return;
       }
-      if (!firebase.apps || firebase.apps.length === 0) firebase.initializeApp(firebaseConfig);
 
-      const db = firebase.firestore();
-      const auth = firebase.auth();
+      const raw = userIdInput.value || '';
+      const id = normalizeUserId(raw);
 
-      // حالت‌ها
-      let currentUserId = null;
-      let unsubscribeMessages = null;
-
-      // برای "هر گوشی/مرورگر فقط یک اکانت" (بدون وابستگی به Auth)
-      // (این روش 100% ضد دور زدن نیست ولی کار می‌کند و جلوی چند آیدی در همین دستگاه را می‌گیرد)
-      function getOrCreateDeviceId(){
-        const key = 'nulimit_device_id';
-        let v = localStorage.getItem(key);
-        if (v) return v;
-        v = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('dev_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16));
-        localStorage.setItem(key, v);
-        return v;
+      if (!id) { idError.textContent = 'لطفاً یک آیدی وارد کنید.'; return; }
+      if (!isValidUserId(id)) {
+        idError.textContent = 'آیدی نامعتبر است. ۳ تا ۲۰ کاراکتر، فقط حروف/عدد/._ و بدون فاصله.';
+        return;
       }
-      const deviceId = getOrCreateDeviceId();
 
-      // قوانین آیدی
-      const ID_MIN = 3;
-      const ID_MAX = 20;
-      const ID_RE = new RegExp(`^[\\u0600-\\u06FFa-zA-Z0-9_]{${ID_MIN},${ID_MAX}}$`);
-      function normalizeUserId(raw){ return (raw || '').trim().toLowerCase(); }
+      setUiLocked(true);
 
-      // فعال/غیرفعال کردن چت
-      function setChatEnabled(enabled){
-        msgInput.disabled = !enabled;
-        sendBtn.disabled = !enabled;
-      }
-      setChatEnabled(false);
+      try {
+        // 1) جلوگیری از "ساخت چند اکانت با اسم‌های مختلف" روی همین دستگاه:
+        // یک سند map برای دستگاه می‌سازیم: deviceKeys/{deviceKey}
+        // اگر وجود داشت => قبلاً اکانت ساخته
+        const deviceRef = db.collection('deviceKeys').doc(deviceKey);
 
-      function activateChat(displayId){
-        currentUserId = normalizeUserId(displayId);
+        // 2) جلوگیری از تکراری بودن آیدی:
+        // conversations/{id} اگر وجود داشت => آیدی قبلاً گرفته شده
+        const convRef = db.collection('conversations').doc(id);
 
-        localStorage.setItem('nulimit_user_id', displayId);
+        await db.runTransaction(async (tx) => {
+          const deviceSnap = await tx.get(deviceRef);
+          if (deviceSnap.exists) {
+            const existingId = deviceSnap.data()?.userId || '';
+            throw new Error('DEVICE_ALREADY_REGISTERED::' + existingId);
+          }
 
-        showError('');
-        setHint('آیدی شما ثبت شد و روی این دستگاه قفل شد.');
-        userIdLabel.textContent = 'آیدی شما: ' + displayId;
+          const convSnap = await tx.get(convRef);
+          if (convSnap.exists) {
+            // اگر آیدی قبلاً هست یعنی کسی قبلاً همین آیدی رو گرفته
+            throw new Error('USERID_TAKEN');
+          }
 
-        // از اینجا به بعد قفل می‌کنیم
+          // ثبت قفل دستگاه
+          tx.set(deviceRef, {
+            userId: id,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          // ایجاد گفتگو
+          tx.set(convRef, {
+            userId: id,
+            deviceKey: deviceKey, // صرفاً برای دیباگ/ادمین
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastMessage: 'شروع گفتگو توسط کاربر',
+            lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            unreadForAdmin: true,
+            unreadForUser: false
+          }, { merge: true });
+        });
+
+        // اگر تراکنش موفق بود => قفل لوکال هم می‌زنیم
+        localStorage.setItem(LS_USER_ID, id);
+
+        userIdInput.value = id;
         userIdInput.disabled = true;
         saveIdBtn.disabled = true;
 
-        setChatEnabled(true);
-        subscribeToMessages();
+        idOk.textContent = 'آیدی با موفقیت ثبت شد.';
+        idHint.textContent = 'آیدی شما ثبت شد. از این دستگاه فقط همین آیدی قابل استفاده است.';
+        await setUserId(id, true);
+
+      } catch (err) {
+        console.error(err);
+
+        const msg = (err && err.message) ? String(err.message) : '';
+
+        if (msg.startsWith('DEVICE_ALREADY_REGISTERED::')) {
+          const existingId = msg.split('::')[1] || '';
+          idError.textContent = 'این دستگاه قبلاً یک آیدی ثبت کرده است' + (existingId ? (': ' + existingId) : '') + ' و امکان ساخت آیدی جدید ندارد.';
+        } else if (msg.includes('USERID_TAKEN')) {
+          idError.textContent = 'این آیدی قبلاً ثبت شده است. لطفاً یک آیدی دیگر انتخاب کنید.';
+        } else if (err && err.code === 'permission-denied') {
+          idError.textContent = 'خطا: دسترسی ندارید (permission-denied). قوانین Firestore را بررسی کنید.';
+        } else {
+          idError.textContent = 'خطا در ثبت آیدی. لطفاً دوباره تلاش کنید.';
+        }
+
+        setUiLocked(false);
       }
+    });
 
-      // تلاش برای لاگین ناشناس (اختیاری)
-      // اگر خطا auth/configuration-not-found داشت، مشکلی برای تایپ و ساخت آیدی ایجاد نمی‌کنیم.
-      (async () => {
-        try {
-          await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-          if (!auth.currentUser) await auth.signInAnonymously();
-          // اگر اینجا خطا دهد، مهم نیست (فقط برای امنیت بیشتر بود)
-        } catch (e) {
-          console.warn('Auth not ready:', e);
-          // این خطا را فقط نمایش می‌دهیم، ولی UI را قفل نمی‌کنیم
-          if (String(e && e.code || '') === 'auth/configuration-not-found') {
-            setHint('هشدار: Firebase Auth در پروژه تنظیم نشده (auth/configuration-not-found). با این حال ثبت آیدی کار می‌کند.');
-          }
+    async function setUserId(id, fromUser) {
+      currentUserId = id;
+
+      idError.textContent = '';
+      userIdLabel.textContent = 'آیدی شما: ' + id;
+
+      msgInput.disabled = false;
+      sendBtn.classList.remove('disabled');
+
+      // اگر کاربر از قبل داشت، فقط merge می‌کنیم (آیدی جدید نسازد)
+      const convRef = db.collection('conversations').doc(id);
+      await convRef.set({
+        userId: id,
+        deviceKey: deviceKey,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastMessage: fromUser ? 'شروع گفتگو توسط کاربر' : 'بازیابی گفتگو',
+        lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        unreadForAdmin: !!fromUser,
+        unreadForUser: false
+      }, { merge: true });
+
+      subscribeToMessages();
+    }
+
+    function subscribeToMessages() {
+      if (!currentUserId) return;
+      if (unsubscribeMessages) unsubscribeMessages();
+
+      const msgsRef = db
+        .collection('conversations')
+        .doc(currentUserId)
+        .collection('messages')
+        .orderBy('createdAt', 'asc');
+
+      unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
+        messagesEl.innerHTML = '';
+        if (snapshot.empty) {
+          messagesEl.innerHTML = '<div class="empty-state">هنوز پیامی ارسال نشده است. اولین پیام را شما بفرستید.</div>';
+          return;
         }
-      })();
 
-      // اگر قبلاً روی همین دستگاه ثبت شده باشد، اتومات لود کن
-      (async () => {
-        try {
-          setHint('در حال بررسی اکانت این دستگاه...');
-          const deviceRef = db.collection('devices').doc(deviceId);
-          const snap = await deviceRef.get();
-          if (snap.exists) {
-            const d = snap.data() || {};
-            if (d.username) {
-              // روی همین دستگاه قفل شده
-              activateChat(d.displayId || d.username);
-              return;
-            }
-          }
-          // اگر نبود، اجازه تایپ و ثبت هست
-          setHint('آیدی را وارد کنید. (هر دستگاه فقط یک آیدی)');
-          const saved = localStorage.getItem('nulimit_user_id');
-          if (saved) userIdInput.value = saved;
-        } catch (e) {
-          console.error(e);
-          showError('خطا در اتصال به دیتابیس. Firestore Rules یا اینترنت را بررسی کنید.');
-          setHint('اتصال برقرار نشد.');
-        }
-      })();
+        snapshot.forEach(doc => {
+          const m = doc.data();
+          const row = document.createElement('div');
+          row.className = 'msg-row ' + (m.sender === 'admin' ? 'admin' : 'user');
 
-      // ثبت آیدی
-      saveIdBtn.addEventListener('click', async () => {
-        showError('');
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
+          bubble.textContent = m.text || '';
 
-        const raw = (userIdInput.value || '').trim();
-        if (!raw) return showError('لطفاً یک آیدی وارد کنید.');
-        if (raw.length < ID_MIN) return showError(`آیدی باید حداقل ${ID_MIN} کاراکتر باشد.`);
-        if (raw.length > ID_MAX) return showError(`آیدی باید حداکثر ${ID_MAX} کاراکتر باشد.`);
-        if (!ID_RE.test(raw)) return showError('فقط حروف فارسی/انگلیسی، عدد و _ مجاز است (بدون فاصله).');
+          const time = document.createElement('div');
+          time.className = 'time';
+          const date = (m.createdAt && m.createdAt.toDate) ? m.createdAt.toDate() : new Date();
+          time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-        const displayId = raw;
-        const userIdKey = normalizeUserId(raw);
+          bubble.appendChild(time);
+          row.appendChild(bubble);
+          messagesEl.appendChild(row);
+        });
 
-        saveIdBtn.disabled = true;
-        userIdInput.disabled = true;
-        setHint('در حال ثبت آیدی...');
+        messagesEl.scrollTop = messagesEl.scrollHeight + 200;
+      }, err => {
+        console.error(err);
+        idError.textContent = 'خطا در دریافت پیام‌ها. لطفاً دوباره تلاش کنید.';
+      });
+    }
 
-        try {
-          const deviceRef = db.collection('devices').doc(deviceId);
-          const usernameRef = db.collection('usernames').doc(userIdKey);
-          const convRef = db.collection('conversations').doc(userIdKey);
+    sendBtn.addEventListener('click', sendMessage);
+    msgInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
 
-          await db.runTransaction(async (tx) => {
-            const [deviceSnap, usernameSnap] = await Promise.all([
-              tx.get(deviceRef),
-              tx.get(usernameRef),
-            ]);
+    function sendMessage() {
+      if (!currentUserId) {
+        idError.textContent = 'ابتدا آیدی خود را ثبت کنید.';
+        return;
+      }
+      const text = (msgInput.value || '').trim();
+      if (!text) return;
 
-            // هر دستگاه فقط یک آیدی
-            if (deviceSnap.exists) {
-              const d = deviceSnap.data() || {};
-              if (d.username && d.username !== userIdKey) {
-                throw new Error('این دستگاه قبلاً با آیدی دیگری ثبت شده و اجازه ساخت آیدی جدید ندارد.');
-              }
-            }
+      msgInput.value = '';
+      msgInput.focus();
 
-            // آیدی باید یکتا باشد
-            if (usernameSnap.exists) {
-              throw new Error('این آیدی قبلاً ثبت شده است. یک آیدی دیگر انتخاب کنید.');
-            }
+      const convRef = db.collection('conversations').doc(currentUserId);
+      const msgsRef = convRef.collection('messages');
 
-            // قفل کردن دستگاه
-            tx.set(deviceRef, {
-              deviceId,
-              username: userIdKey,
-              displayId,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
+      const batch = db.batch();
+      const msgDoc = msgsRef.doc();
 
-            // قفل کردن آیدی
-            tx.set(usernameRef, {
-              deviceId,
-              displayId,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            // ساخت گفتگو
-            tx.set(convRef, {
-              userId: userIdKey,
-              displayId,
-              deviceId,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              lastMessage: 'شروع گفتگو توسط کاربر',
-              lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              unreadForAdmin: true,
-              unreadForUser: false
-            }, { merge: true });
-          });
-
-          activateChat(displayId);
-
-        } catch (e) {
-          console.error(e);
-          showError(e && e.message ? e.message : 'خطا در ثبت آیدی.');
-          setHint('ثبت انجام نشد. دوباره تلاش کنید.');
-          // اجازه تایپ دوباره
-          userIdInput.disabled = false;
-          saveIdBtn.disabled = false;
-        }
+      batch.set(msgDoc, {
+        text,
+        sender: 'user',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
-      // پیام‌ها
-      function subscribeToMessages(){
-        if (!currentUserId) return;
-        if (unsubscribeMessages) unsubscribeMessages();
+      batch.set(convRef, {
+        userId: currentUserId,
+        lastMessage: text,
+        lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        unreadForAdmin: true,
+        unreadForUser: false
+      }, { merge: true });
 
-        const msgsRef = db
-          .collection('conversations')
-          .doc(currentUserId)
-          .collection('messages')
-          .orderBy('createdAt', 'asc');
-
-        unsubscribeMessages = msgsRef.onSnapshot(snapshot => {
-          messagesEl.innerHTML = '';
-
-          if (snapshot.empty) {
-            messagesEl.innerHTML = '<div class="empty-state">هنوز پیامی ارسال نشده است. اولین پیام را شما بفرستید.</div>';
-            return;
-          }
-
-          snapshot.forEach(doc => {
-            const m = doc.data();
-
-            const row = document.createElement('div');
-            row.className = 'msg-row ' + (m.sender === 'admin' ? 'admin' : 'user');
-
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble ' + (m.sender === 'admin' ? 'admin' : 'user');
-            bubble.textContent = m.text || '';
-
-            const time = document.createElement('div');
-            time.className = 'time';
-            const date = m.createdAt ? m.createdAt.toDate() : new Date();
-            time.textContent = date.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-
-            bubble.appendChild(time);
-            row.appendChild(bubble);
-            messagesEl.appendChild(row);
-          });
-
-          messagesEl.scrollTop = messagesEl.scrollHeight + 200;
-        }, err => {
-          console.error(err);
-          showError('خطا در دریافت پیام‌ها. Firestore Rules را چک کنید.');
-        });
-      }
-
-      // ارسال پیام
-      sendBtn.addEventListener('click', sendMessage);
-      msgInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
-        }
+      batch.commit().catch(err => {
+        console.error(err);
+        idError.textContent = 'خطا در ارسال پیام. لطفاً دوباره تلاش کنید.';
       });
-
-      function sendMessage(){
-        if (!currentUserId) return showError('ابتدا آیدی را ثبت کنید.');
-
-        const text = (msgInput.value || '').trim();
-        if (!text) return;
-
-        msgInput.value = '';
-        msgInput.focus();
-
-        const convRef = db.collection('conversations').doc(currentUserId);
-        const msgsRef = convRef.collection('messages');
-
-        const batch = db.batch();
-        batch.set(msgsRef.doc(), {
-          text,
-          sender: 'user',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        batch.set(convRef, {
-          lastMessage: text,
-          lastTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          unreadForAdmin: true,
-          unreadForUser: false
-        }, { merge: true });
-
-        batch.commit().catch(err => {
-          console.error(err);
-          showError('خطا در ارسال پیام. Firestore Rules یا اینترنت را بررسی کنید.');
-        });
-      }
-    })();
+    }
   </script>
 </body>
 </html>
